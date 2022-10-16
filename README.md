@@ -13,7 +13,8 @@
 Ruby on Railsを学習した際に、複数部署の差出郵便情報の集約、料金計算、差出票の作成、支払予算の管理など総務部門が行っていることを一体的かつ効率的に行うアプリケーションが開発できると考えました。
 
 ### ターゲットユーザー
-企業内
+- 郵便事務を手作業で行っている企業内
+- 郵便事務を行う簡易システム（エクセルなど）はあるが、管理部署の負担が大きい
 
 ### 主な利用シーン
 - 日々の郵便差出業務
@@ -26,6 +27,7 @@ Ruby on Railsを学習した際に、複数部署の差出郵便情報の集約�
 
 ## 設計書
 - [実装機能リスト](https://docs.google.com/spreadsheets/d/1_f2bJQGsdjx1IxGlhiqKCa9VgmaCknCL2PGkNGcC8qs/edit?usp=sharing)
+- [機能一覧](https://docs.google.com/spreadsheets/d/1oKXWKaludEVDDqRBmxTHNCdtVEJwsssdkbfG9HlCyFM/edit?usp=sharing)
 
 ## 開発環境
 - OS：Linux(CentOS)
