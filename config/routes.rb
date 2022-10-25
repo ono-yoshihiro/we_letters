@@ -9,5 +9,10 @@ Rails.application.routes.draw do
     sessions: 'admin/sessions'
   }
 
+  namespace :admin do
+    resources :types, only: [:index, :new, :create, :show, :edit, :update]
+  end
+
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
