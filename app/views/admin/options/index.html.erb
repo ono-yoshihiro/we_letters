@@ -1,0 +1,34 @@
+<main>
+  <div class = "container-fluid">
+    <div class = "row">
+      <div class = "col-2">
+        オプション一覧
+      </div>
+    </div>
+    <div class = "row">
+      <table class = "col-10 table table-bordered">
+        <thead>
+          <tr>
+            <th>オプション名</th>
+            <th>加算料金</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @options.each do |option| %>
+            <tr>
+              <td><%= option.name %></td>
+              <td><%= option.additional_price %></td>
+              <td><%= link_to "編集する", edit_admin_option_path(option.id), class: "btn btn-primary" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class = "row">
+      <div class = "col-2">
+        <%= link_to "新規登録", new_admin_option_path, class: "btn btn-success" %>
+      </div>
+    </div>
+  </div>
+</main>

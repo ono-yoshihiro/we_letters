@@ -1,0 +1,76 @@
+<main>
+  <div class = "container">
+    <div class = "row">
+      <div class = "col-2">
+        郵便種別編集
+      </div>
+    </div>
+    <%= form_with model: @type, url: admin_type_path, method: :patch do |f| %>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "name" style = "padding-left: 1em">
+            名称
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :name , class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "price" style = "padding-left: 1em">
+            基本料金
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :price , class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "special_price_1" style = "padding-left: 1em">
+            特別料金1
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :special_price_1 , class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "special_price_2" style = "padding-left: 1em">
+            特別料金2
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :special_price_2 , class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "special_price_3" style = "padding-left: 1em">
+            特別料金3
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :special_price_3 , class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "special_price_4" style = "padding-left: 1em">
+            特別料金4
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :special_price_4 , class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-5">
+          <%= f.submit "変更を登録する", class: "btn btn-success" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</main>

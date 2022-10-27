@@ -1,0 +1,36 @@
+<main>
+  <div class = "container">
+    <div class = "row">
+      <div class = "col-2">
+        オプション登録
+      </div>
+    </div>
+    <%= form_with model: @option, url: admin_options_path, method: :post do |f| %>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "name" style = "padding-left: 1em">
+            名称
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "additional_price" style = "padding-left: 1em">
+            加算料金
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :additional_price, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-5">
+          <%= f.submit "新規登録", class: "btn btn-success" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</main>

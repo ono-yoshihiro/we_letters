@@ -1,0 +1,42 @@
+<main>
+  <div class = "container-fluid">
+    <div class = "row">
+      <div class = "col-2">
+        郵便種別登録
+      </div>
+    </div>
+    <div class = "row">
+      <table class = "col-10 table table-bordered">
+        <thead>
+          <tr>
+            <th>種別名</th>
+            <th>基本料金</th>
+            <th>特別料金1</th>
+            <th>特別料金2</th>
+            <th>特別料金3</th>
+            <th>特別料金4</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @types.each do |type| %>
+            <tr>
+              <td><%= type.name %></td>
+              <td><%= type.price %></td>
+              <td><%= type.special_price_1 %></td>
+              <td><%= type.special_price_2 %></td>
+              <td><%= type.special_price_3 %></td>
+              <td><%= type.special_price_4 %></td>
+              <td><%= link_to "編集する", edit_admin_type_path(type.id), class: "btn btn-primary" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class = "row">
+      <div class = "col-2">
+        <%= link_to "新規登録", new_admin_type_path, class: "btn btn-success" %>
+      </div>
+    </div>
+  </div>
+</main>
