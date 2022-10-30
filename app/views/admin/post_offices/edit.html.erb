@@ -1,0 +1,36 @@
+<main>
+  <div class = "container">
+    <div class = "row">
+      <div class = "col-2">
+        集配郵便局編集
+      </div>
+    </div>
+    <%= form_with model: @post_office, url: admin_post_office_path, method: :patch do |f| %>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "name" style = "padding-left: 1em">
+            集配郵便局名
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "postal_code" style = "padding-left: 1em">
+            配達郵便区
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :postal_code, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-5">
+          <%= f.submit "変更を登録する", class: "btn btn-success" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</main>

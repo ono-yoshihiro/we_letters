@@ -1,0 +1,47 @@
+<main>
+  <div class = "container-fluid">
+    <div class = "row">
+      <div class = "col-2">
+        予算登録
+      </div>
+    </div>
+    <%= form_with model: @budget, url: budgets_path, method: :post do |f| %>
+      <div class = "row" style = "margin-top: 40px">
+        <div class = "col-2">
+          <label for = "name">予算名</label>
+        </div>
+        <div class = "col-5">
+          <%= f.text_field :name , class: "form-control" %>
+        </div>
+        <div class = "col-2">
+          <%= f.submit "新規登録", class: "btn btn-success" %>
+        </div>
+      </div>
+    <% end %>
+    <div class = "row" style = "margin-top: 40px">
+      <div class = "col-2">
+        予算一覧
+      </div>
+    </div>
+    <div class = "row">
+      <table class = "col-10 table table-bordered" style = "margin-top: 40px">
+        <thead>
+          <tr>
+            <th>予算名</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @budgets.each do |budget| %>
+            <tr>
+              <td><%= budget.name %></td>
+              <td><%= link_to "編集する", edit_section_budget_path(budget.id), class: "btn btn-primary" %></td>
+              <td><%= link_to "削除する", "/budgets/#{budget.id}", method: :delete, class: "btn btn-danger" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

@@ -11,6 +11,7 @@ root :to => 'section/homes#top'
   namespace :admin do
     resources :types, only: [:index, :new, :create, :show, :edit, :update]
     resources :options, only: [:index, :new, :create, :show, :edit, :update]
+    resources :post_offices, only: [:new, :create, :show, :edit, :update]
   end
 
 
@@ -20,7 +21,15 @@ root :to => 'section/homes#top'
     sessions: 'section/sessions'
   }
 
-  scope module: :public do
+  scope module: :section do
+    get 'sections/mypage' => 'sections#show'
+    get 'sections/information' => 'sections#edit'
+    patch 'sections/information' => 'sections#update'
+    get 'budgets' => 'budgets#index'
+    post 'budgets' => 'budgets#create'
+    get 'budgets/:id/edit' => 'budgets#edit', as: 'edit_section_budget'
+    patch 'budgets/:id' => 'budgets#update', as: 'update_section_budget'
+    delete 'budgets/:id' => 'budgets#destroy'
   end
 
 

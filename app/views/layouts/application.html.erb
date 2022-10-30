@@ -12,7 +12,13 @@
 
   <body>
     <header class = "shadow-sm h1">
-      ヘッダー
+      <div class = "col-2">ヘッダー</div>
+        <% if admin_signed_in? %>
+          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-light text-nowrap", :style => "width:120px" %>
+        <% elsif section_signed_in? %>
+          <%= link_to "ログアウト", destroy_section_session_path, method: :delete, class: "btn btn-light", :style => "width:120px" %>
+        <% else %>
+      <% end %>
     </header>
     <%= yield %>
   </body>
