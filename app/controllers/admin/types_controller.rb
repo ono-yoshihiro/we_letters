@@ -35,7 +35,7 @@ class Admin::TypesController < ApplicationController
 
   private
   def type_params
-    params.require(:type).permit(:name, :price, :special_price_1, :special_price_2, :special_price_3, :special_price_4)
+    params.require(:type).permit(:type_name_id, :weight_id, :size_id, :address_id, :barcode_id, :price, :special_price_1, :special_price_2, :special_price_3)
   end
 
 

@@ -6,27 +6,51 @@
       </div>
     </div>
     <div class = "row">
-      <table class = "col-10 table table-bordered">
+      <table class = "col-10 table table-bordered table-sm">
         <thead>
           <tr>
+            <th>ID</th>
             <th>種別名</th>
+            <th>重量</th>
+            <th>サイズ</th>
+            <th>宛先</th>
+            <th>バーコード</th>
             <th>基本料金</th>
             <th>特別料金1</th>
             <th>特別料金2</th>
             <th>特別料金3</th>
-            <th>特別料金4</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <% @types.each do |type| %>
             <tr>
-              <td><%= type.name %></td>
+              <td><%= type.id %></td>
+              <td><%= type.type_name.name %></td>
+              <% if type.weight.present? %>
+                <td><%= type.weight.weight %></td>
+              <% else %>
+                <td></td>
+              <% end %>
+              <% if type.size.present? %>
+                <td><%= type.size.size %></td>
+              <% else %>
+                <td></td>
+              <% end %>
+              <% if type.address.present? %>
+                <td><%= type.address.address %></td>
+              <% else %>
+                <td></td>
+              <% end %>
+              <% if type.barcode.present? %>
+                <td><%= type.barcode.barcode %></td>
+              <% else %>
+                <td></td>
+              <% end %>
               <td><%= type.price %></td>
               <td><%= type.special_price_1 %></td>
               <td><%= type.special_price_2 %></td>
               <td><%= type.special_price_3 %></td>
-              <td><%= type.special_price_4 %></td>
               <td><%= link_to "編集する", edit_admin_type_path(type.id), class: "btn btn-primary" %></td>
             </tr>
           <% end %>

@@ -8,14 +8,55 @@
     <%= form_with model: @type, url: admin_type_path, method: :patch do |f| %>
       <div class = "row">
         <div class = "col-2">
-          <label for = "name" style = "padding-left: 1em">
-            名称
+          <label for = "type_name_id" style = "padding-left: 1em">
+            種類
           </label>
         </div>
         <div class = "col-3">
-          <%= f.text_field :name , class: "form-control" %>
+          <%= f.collection_select :type_name_id, TypeName.all, :id, :name, {include_blank: true }, class: "form-control" %>
         </div>
       </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "weight_id" style = "padding-left: 1em">
+            重量
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.collection_select :weight_id, Weight.all, :id, :weight, {include_blank: true }, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "size_id" style = "padding-left: 1em">
+            サイズ
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.collection_select :size_id, Size.all, :id, :size, {include_blank: true }, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "address_id" style = "padding-left: 1em">
+            宛先
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.collection_select :address_id, Address.all, :id, :address, {include_blank: true }, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "address" style = "padding-left: 1em">
+            カスタマーバーコード
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.collection_select :barcode_id, Barcode.all, :id, :barcode, {include_blank: true }, class: "form-control" %>
+        </div>
+      </div>
+
       <div class = "row">
         <div class = "col-2">
           <label for = "price" style = "padding-left: 1em">
@@ -54,16 +95,6 @@
         </div>
         <div class = "col-3">
           <%= f.text_field :special_price_3 , class: "form-control" %>
-        </div>
-      </div>
-      <div class = "row">
-        <div class = "col-2">
-          <label for = "special_price_4" style = "padding-left: 1em">
-            特別料金4
-          </label>
-        </div>
-        <div class = "col-3">
-          <%= f.text_field :special_price_4 , class: "form-control" %>
         </div>
       </div>
       <div class = "row">

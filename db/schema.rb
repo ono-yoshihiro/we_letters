@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_29_071913) do
+ActiveRecord::Schema.define(version: 2022_11_01_171319) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "address", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,6 +28,12 @@ ActiveRecord::Schema.define(version: 2022_10_29_071913) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "barcodes", force: :cascade do |t|
+    t.string "barcode", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "budgets", force: :cascade do |t|
@@ -67,13 +79,34 @@ ActiveRecord::Schema.define(version: 2022_10_29_071913) do
     t.index ["reset_password_token"], name: "index_sections_on_reset_password_token", unique: true
   end
 
-  create_table "types", force: :cascade do |t|
+  create_table "sizes", force: :cascade do |t|
+    t.string "size", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "type_names", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "types", force: :cascade do |t|
+    t.integer "type_name_id", null: false
+    t.integer "weight_id"
+    t.integer "size_id"
+    t.integer "address_id"
+    t.integer "barcode_id"
     t.integer "price", null: false
     t.integer "special_price_1"
     t.integer "special_price_2"
     t.integer "special_price_3"
-    t.integer "special_price_4"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "weights", force: :cascade do |t|
+    t.string "weight"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

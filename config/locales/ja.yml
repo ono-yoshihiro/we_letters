@@ -1,0 +1,19 @@
+ja:
+  enums:
+    type:
+      weight:
+        blank_weight: "指定しない"
+        up_to_25g: "25g以内"
+        up_to_50g: "50g以内"
+        up_to_100g: "100g以内"
+        up_to_150g: "150g以内"
+        up_to_250g: "250g以内"
+        up_to_500g: "500g以内"
+        up_to_1kg: "1kg以内"
+        up_to_2kg: "2kg以内"
+        up_to_4kg: "4kg以内"
+      size:
+        blank_size: "指定しない"
+        fixed_form: "定型"
+        standard: "定型外(規格内)"
+        nonstandard: "定型外(規格外)"
