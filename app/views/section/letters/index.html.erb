@@ -7,9 +7,8 @@
             差出郵便登録
           </div>
         </div>
-          <%= form_with model: @letter, url: letters_path, method: :post do |f| %>
-<!--FormObjectでコンビネーションも同時に作成する-->
-<!--      < %= form_with model: @form, url: letters_path, method: :post do |f| %>-->
+        <%= form_with model: @letter, url: letters_path, method: :post do |f| %>
+<!--          < %= form_with model: @form, url: letters_path, method: :post do |f| %>-->
             <div class = "row">
               <div class = "col-4">
                 <label for = "type_name_id" style = "padding-left: 1em">
@@ -70,16 +69,7 @@
                 <%= f.text_field :number, class: "form-control" %>
               </div>
             </div>
-<!--            <div class = "row">
-              <div class = "col-4">
-                <label for = "option_id" style = "padding-left: 1em">
-                  オプション
-                </label>
-              </div>
-              <div class = "col-4">
-                < %= f.collection_select :option_id, Option.all, :id, :name, {prompt: "--選択してください--" }, class: "form-control" %>
-              </div>
-            </div>-->
+
             <div class = "row">
               <div class = "col-4">
                 <%= f.submit "新規登録", class: "btn btn-success" %>
@@ -133,7 +123,7 @@
                   <%= letter.type.barcode.barcode %>
                 </td>
 
-<!--                <td>
+<!--            <td>
                   < % letter.combination.options.each do |option| %>
                     < %= option.name %><br>
                   < % end %>
