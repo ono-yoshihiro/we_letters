@@ -1,0 +1,154 @@
+<main>
+  <div class = "container-fluid">
+    <div class = "row">
+      <div class = "col-4"><!--登録画面-->
+        <div class = "row">
+          <div class = "col-12">
+            差出郵便登録
+          </div>
+        </div>
+          <%= form_with model: @letter, url: letters_path, method: :post do |f| %>
+<!--FormObjectでコンビネーションも同時に作成する-->
+<!--      < %= form_with model: @form, url: letters_path, method: :post do |f| %>-->
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "type_name_id" style = "padding-left: 1em">
+                  種類
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :type_name_id, TypeName.all, :id, :name, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "weight_id" style = "padding-left: 1em">
+                  重量
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :weight_id, Weight.all, :id, :weight, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "size_id" style = "padding-left: 1em">
+                  サイズ
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :size_id, Size.all, :id, :size, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "address_id" style = "padding-left: 1em">
+                  宛先
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :address_id, Address.all, :id, :address, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "barcode_id" style = "padding-left: 1em">
+                  カスタマーバーコード
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :barcode_id, Barcode.all, :id, :barcode, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "number" style = "padding-left: 1em">
+                  通数
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.text_field :number, class: "form-control" %>
+              </div>
+            </div>
+<!--            <div class = "row">
+              <div class = "col-4">
+                <label for = "option_id" style = "padding-left: 1em">
+                  オプション
+                </label>
+              </div>
+              <div class = "col-4">
+                < %= f.collection_select :option_id, Option.all, :id, :name, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>-->
+            <div class = "row">
+              <div class = "col-4">
+                <%= f.submit "新規登録", class: "btn btn-success" %>
+              </div>
+            </div>
+          <% end %>
+      </div>
+
+
+
+
+
+
+
+      <div class = "col-8"><!--登録したlettersの表示-->
+        <div class = "row">
+          <div class = "col-12">
+            登録郵便一覧
+          </div>
+        </div>
+        <div class = "row">
+          <table class = "table table-bordered">
+            <thead>
+              <tr>
+                <th>種類</th>
+                <th>重量</th>
+                <th>サイズ</th>
+                <th>宛先</th>
+                <th>バーコード</th>
+                <th>オプション</th>
+                <th>通数</th>
+                <th></th>
+              </tr>
+            </thead>
+            <% @letters.each do |letter| %>
+            <tbody>
+              <tr>
+                <td>
+                  <%= letter.type.type_name.name %>
+                </td>
+                <td>
+                  <%= letter.type.weight.weight %>
+                </td>
+                <td>
+                  <%= letter.type.size.size %>
+                </td>
+                <td>
+                  <%= letter.type.address.address %>
+                </td>
+                <td>
+                  <%= letter.type.barcode.barcode %>
+                </td>
+
+<!--                <td>
+                  < % letter.combination.options.each do |option| %>
+                    < %= option.name %><br>
+                  < % end %>
+                </td>-->
+                <td></td>
+                <td>
+                  <%= letter.number %>
+                </td>
+                <td>削除ボタン</td>
+              </tr>
+            </tbody>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

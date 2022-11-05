@@ -1,0 +1,2 @@
+module Section::LettersHelper
+end

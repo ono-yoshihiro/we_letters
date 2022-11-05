@@ -30,6 +30,11 @@ root :to => 'section/homes#top'
     get 'budgets/:id/edit' => 'budgets#edit', as: 'edit_section_budget'
     patch 'budgets/:id' => 'budgets#update', as: 'update_section_budget'
     delete 'budgets/:id' => 'budgets#destroy'
+    get 'letters' => 'letters#index'
+    post 'letters' => 'letters#create'
+    patch 'letters/:id' => 'letters#update'
+    delete 'letters/:id' => 'letters#destroy'
+    delete 'letters/destroy_all' => 'letters#destroy_all'
   end
 
 
