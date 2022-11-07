@@ -1,5 +1,4 @@
 class TypeName < ApplicationRecord
   has_many :types
-
-  validates :name, presence: true
+  validates :type_name, presence: true
 end

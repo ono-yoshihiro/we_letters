@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Admin::OptionsControllerTest < ActionDispatch::IntegrationTest
+class RegisteredOptionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

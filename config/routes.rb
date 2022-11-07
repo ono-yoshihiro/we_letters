@@ -10,7 +10,6 @@ root :to => 'section/homes#top'
 
   namespace :admin do
     resources :types, only: [:index, :new, :create, :show, :edit, :update]
-    resources :options, only: [:index, :new, :create, :show, :edit, :update]
     resources :post_offices, only: [:new, :create, :show, :edit, :update]
   end
 
@@ -33,8 +32,12 @@ root :to => 'section/homes#top'
     get 'letters' => 'letters#index'
     post 'letters' => 'letters#create'
     patch 'letters/:id' => 'letters#update'
-    delete 'letters/:id' => 'letters#destroy'
     delete 'letters/destroy_all' => 'letters#destroy_all'
+    delete 'letters/:id' => 'letters#destroy'
+    get 'send_letters/new' => 'send_letters#new'
+    post 'send_letters' => 'send_letters#create'
+    get 'send_letters' => 'send_letters#index'
+    get 'send_letters/:id' => 'send_letters#show'
   end
 
 

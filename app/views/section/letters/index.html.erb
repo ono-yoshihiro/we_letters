@@ -8,7 +8,11 @@
           </div>
         </div>
         <%= form_with model: @letter, url: letters_path, method: :post do |f| %>
-<!--          < %= form_with model: @form, url: letters_path, method: :post do |f| %>-->
+            <div class = "row">
+              <div class = "col-4 h4">
+                基本条件
+              </div>
+            </div>
             <div class = "row">
               <div class = "col-4">
                 <label for = "type_name_id" style = "padding-left: 1em">
@@ -16,7 +20,7 @@
                 </label>
               </div>
               <div class = "col-4">
-                <%= f.collection_select :type_name_id, TypeName.all, :id, :name, {prompt: "--選択してください--" }, class: "form-control" %>
+                <%= f.collection_select :type_name_id, TypeName.all, :id, :type_name, {prompt: "--選択してください--" }, class: "form-control" %>
               </div>
             </div>
             <div class = "row">
@@ -70,6 +74,68 @@
               </div>
             </div>
 
+
+            <div class = "row">
+              <div class = "col-4 h4">
+                オプション
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "delivery_date_option_id" style = "padding-left: 1em">
+                  速達、配達日指定
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :delivery_date_option_id, DeliveryDateOption.all, :id, :option, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "registered_option_id" style = "padding-left: 1em">
+                  書留、特定記録
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :registered_option_id, RegisteredOption.all, :id, :option, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "proof_delivery_option_id" style = "padding-left: 1em">
+                  配達証明
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :proof_delivery_option_id, ProofDeliveryOption.all, :id, :option, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "proof_contents_option_id" style = "padding-left: 1em">
+                  内容証明
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :proof_contents_option_id, ProofContentsOption.all, :id, :option, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-4">
+                <label for = "personal_receipt_option_id" style = "padding-left: 1em">
+                  本人限定受取
+                </label>
+              </div>
+              <div class = "col-4">
+                <%= f.collection_select :personal_receipt_option_id, PersonalReceiptOption.all, :id, :option, {prompt: "--選択してください--" }, class: "form-control" %>
+              </div>
+            </div>
+
             <div class = "row">
               <div class = "col-4">
                 <%= f.submit "新規登録", class: "btn btn-success" %>
@@ -91,14 +157,17 @@
           </div>
         </div>
         <div class = "row">
+          <div class = "col-4 h4">
+            <%= link_to "全て削除", letters_destroy_all_path, method: :delete, class: "btn btn-danger" %>
+          </div>
+        </div>
+
+
+        <div class = "row">
           <table class = "table table-bordered">
             <thead>
               <tr>
                 <th>種類</th>
-                <th>重量</th>
-                <th>サイズ</th>
-                <th>宛先</th>
-                <th>バーコード</th>
                 <th>オプション</th>
                 <th>通数</th>
                 <th></th>
@@ -108,36 +177,55 @@
             <tbody>
               <tr>
                 <td>
-                  <%= letter.type.type_name.name %>
+                  <%= letter.type.type_name.type_name %><br>
+                  <% if letter.type.weight_id != 1 %>
+                    <%= letter.type.weight.weight %><br>
+                  <% end %>
+                  <% if letter.type.size_id != 1 %>
+                    <%= letter.type.size.size %><br>
+                  <% end %>
+                  <% if letter.type.address_id != 1 %>
+                    <%= letter.type.address.address %><br>
+                  <% end %>
+                  <% if letter.type.barcode_id != 1 %>
+                    <%= letter.type.barcode.barcode %><br>
+                  <% end %>
                 </td>
                 <td>
-                  <%= letter.type.weight.weight %>
+                  <% if letter.type.delivery_date_option_id != 1 %>
+                    <%= letter.type.delivery_date_option.option %><br>
+                  <% end %>
+                  <% if letter.type.registered_option_id != 1 %>
+                    <%= letter.type.registered_option.option %><br>
+                  <% end %>
+                  <% if letter.type.proof_delivery_option_id != 1 %>
+                    <%= letter.type.proof_delivery_option.option %><br>
+                  <% end %>
+                  <% if letter.type.proof_contents_option_id != 1 %>
+                    <%= letter.type.proof_delivery_option.option %><br>
+                  <% end %>
+                  <% if letter.type.personal_receipt_option_id != 1 %>
+                    <%= letter.type.personal_receipt_option.option %><br>
+                  <% end %>
                 </td>
                 <td>
-                  <%= letter.type.size.size %>
+                  <%= form_with model: letter, url: "/letters/#{letter.id}", method: :patch do |f| %>
+                      <%= f.text_field :number, class: "form-control" %><%= f.submit '変更', class: "btn btn-success" %>
+                  <% end %>
                 </td>
                 <td>
-                  <%= letter.type.address.address %>
+                  <%= link_to "削除", "letters/#{letter.id}", method: :delete, class: "btn btn-danger" %>
                 </td>
-                <td>
-                  <%= letter.type.barcode.barcode %>
-                </td>
-
-<!--            <td>
-                  < % letter.combination.options.each do |option| %>
-                    < %= option.name %><br>
-                  < % end %>
-                </td>-->
-                <td></td>
-                <td>
-                  <%= letter.number %>
-                </td>
-                <td>削除ボタン</td>
               </tr>
             </tbody>
             <% end %>
           </table>
         </div>
+        <div class = "row">
+          <div class = "col-8">
+            <%= link_to "本日の郵便を登録する", 
+          </div>
+
       </div>
     </div>
   </div>

@@ -1,0 +1,75 @@
+<main>
+  <div class = "container-fluid">
+    <div class = "row">
+      <div class = "row">
+        <div class = "col-12">
+          予算選択
+        </div>
+      </div>
+    </div>
+    <div class = "row">
+      <table class = "table table-bordered">
+        <thead>
+          <tr>
+            <th>種類</th>
+            <th>オプション</th>
+            <th>通数</th>
+          </tr>
+        </thead>
+        <% @letters.each do |letter| %>
+        <tbody>
+          <tr>
+            <td>
+              <%= letter.type.type_name.type_name %><br>
+              <% if letter.type.weight_id != 1 %>
+                <%= letter.type.weight.weight %><br>
+              <% end %>
+              <% if letter.type.size_id != 1 %>
+                <%= letter.type.size.size %><br>
+              <% end %>
+              <% if letter.type.address_id != 1 %>
+                <%= letter.type.address.address %><br>
+              <% end %>
+              <% if letter.type.barcode_id != 1 %>
+                <%= letter.type.barcode.barcode %><br>
+              <% end %>
+            </td>
+            <td>
+              <% if letter.type.delivery_date_option_id != 1 %>
+                <%= letter.type.delivery_date_option.option %><br>
+              <% end %>
+              <% if letter.type.registered_option_id != 1 %>
+                <%= letter.type.registered_option.option %><br>
+              <% end %>
+              <% if letter.type.proof_delivery_option_id != 1 %>
+                <%= letter.type.proof_delivery_option.option %><br>
+              <% end %>
+              <% if letter.type.proof_contents_option_id != 1 %>
+                <%= letter.type.proof_delivery_option.option %><br>
+              <% end %>
+              <% if letter.type.personal_receipt_option_id != 1 %>
+                <%= letter.type.personal_receipt_option.option %><br>
+              <% end %>
+            </td>
+            <td>
+              <%= letter.number %>
+            </td>
+          </tr>
+        </tbody>
+        <% end %>
+      </table>
+    </div>
+    <%= form_with model: @letter, url: send_letters_path, method: :post do |f| %>
+      <div class = "row">
+        <div class = "col-2">
+          予算選択
+        </div>
+        <div class = "col-4">
+          <%= f.collection_select :budget_name, Budget.all, :name, :name, {},{class: "form-control"} %><br><br>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</main>
+
+

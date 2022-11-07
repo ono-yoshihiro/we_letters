@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_03_092400) do
+ActiveRecord::Schema.define(version: 2022_11_07_122048) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "address", null: false
@@ -42,9 +42,8 @@ ActiveRecord::Schema.define(version: 2022_11_03_092400) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "combinations", force: :cascade do |t|
-    t.integer "option_id", null: false
-    t.integer "letter_id", null: false
+  create_table "delivery_date_options", force: :cascade do |t|
+    t.string "option", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -57,16 +56,6 @@ ActiveRecord::Schema.define(version: 2022_11_03_092400) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "options", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "additional_price_1", null: false
-    t.integer "additional_price_2"
-    t.integer "additional_price_3"
-    t.integer "additional_price_4"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "payment_budgets", force: :cascade do |t|
     t.integer "section_id", null: false
     t.integer "budget_id", null: false
@@ -74,9 +63,33 @@ ActiveRecord::Schema.define(version: 2022_11_03_092400) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "personal_receipt_options", force: :cascade do |t|
+    t.string "option", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "post_offices", force: :cascade do |t|
     t.string "name", null: false
     t.string "postal_code", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "proof_contents_options", force: :cascade do |t|
+    t.string "option", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "proof_delivery_options", force: :cascade do |t|
+    t.string "option", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "registered_options", force: :cascade do |t|
+    t.string "option", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -97,6 +110,14 @@ ActiveRecord::Schema.define(version: 2022_11_03_092400) do
     t.index ["reset_password_token"], name: "index_sections_on_reset_password_token", unique: true
   end
 
+  create_table "send_letters", force: :cascade do |t|
+    t.integer "section_id", null: false
+    t.integer "budget_name", null: false
+    t.integer "number", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "sizes", force: :cascade do |t|
     t.string "size", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -104,21 +125,31 @@ ActiveRecord::Schema.define(version: 2022_11_03_092400) do
   end
 
   create_table "type_names", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "type_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "types", force: :cascade do |t|
     t.integer "type_name_id", null: false
-    t.integer "weight_id"
-    t.integer "size_id"
-    t.integer "address_id"
-    t.integer "barcode_id"
+    t.integer "weight_id", null: false
+    t.integer "size_id", null: false
+    t.integer "address_id", null: false
+    t.integer "barcode_id", null: false
     t.integer "price", null: false
-    t.integer "special_price_1"
-    t.integer "special_price_2"
-    t.integer "special_price_3"
+    t.integer "special_price_1", null: false
+    t.integer "special_price_2", null: false
+    t.integer "special_price_3", null: false
+    t.integer "delivery_date_option_id", null: false
+    t.integer "delivery_date_option_price", null: false
+    t.integer "registered_option_id", null: false
+    t.integer "registered_option_price", null: false
+    t.integer "proof_delivery_option_id", null: false
+    t.integer "proof_delivery_option_price", null: false
+    t.integer "proof_contents_option_id", null: false
+    t.integer "proof_contents_option_price", null: false
+    t.integer "personal_receipt_option_id", null: false
+    t.integer "personal_receipt_option_price", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

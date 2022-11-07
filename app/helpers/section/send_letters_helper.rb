@@ -1,0 +1,2 @@
+module Section::SendLettersHelper
+end

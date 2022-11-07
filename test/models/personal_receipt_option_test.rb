@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CombinationTest < ActiveSupport::TestCase
+class PersonalReceiptOptionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

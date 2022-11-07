@@ -19,6 +19,16 @@
             <th>特別料金1</th>
             <th>特別料金2</th>
             <th>特別料金3</th>
+            <th>配達日</th>
+            <th>オプション料金</th>
+            <th>書留</th>
+            <th>オプション料金</th>
+            <th>配達証明</th>
+            <th>オプション料金</th>
+            <th>内容証明</th>
+            <th>オプション料金</th>
+            <th>本人限定受取</th>
+            <th>オプション料金</th>
             <th></th>
           </tr>
         </thead>
@@ -26,7 +36,7 @@
           <% @types.each do |type| %>
             <tr>
               <td><%= type.id %></td>
-              <td><%= type.type_name.name %></td>
+              <td><%= type.type_name.type_name %></td>
               <% if type.weight.present? %>
                 <td><%= type.weight.weight %></td>
               <% else %>
@@ -51,11 +61,22 @@
               <td><%= type.special_price_1 %></td>
               <td><%= type.special_price_2 %></td>
               <td><%= type.special_price_3 %></td>
+              <td><%= type.delivery_date_option.option %></td>
+              <td><%= type.delivery_date_option_price %></td>
+              <td><%= type.registered_option.option %></td>
+              <td><%= type.registered_option_price %></td>
+              <td><%= type.proof_delivery_option.option %></td>
+              <td><%= type.proof_delivery_option_price %></td>
+              <td><%= type.proof_contents_option.option %></td>
+              <td><%= type.proof_contents_option_price %></td>
+              <td><%= type.personal_receipt_option.option %></td>
+              <td><%= type.personal_receipt_option_price %></td>
               <td><%= link_to "編集する", edit_admin_type_path(type.id), class: "btn btn-primary" %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
+    <%= paginate @types, theme: 'bootstrap-5' %>
     </div>
     <div class = "row">
       <div class = "col-2">

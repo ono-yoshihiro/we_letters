@@ -14,7 +14,7 @@ class Admin::TypesController < ApplicationController
   end
 
   def index
-    @types = Type.all
+    @types = Type.page(params[:page]).per(8)
   end
 
   def show
@@ -35,7 +35,7 @@ class Admin::TypesController < ApplicationController
 
   private
   def type_params
-    params.require(:type).permit(:type_name_id, :weight_id, :size_id, :address_id, :barcode_id, :price, :special_price_1, :special_price_2, :special_price_3)
+    params.require(:type).permit(:type_name_id, :weight_id, :size_id, :address_id, :barcode_id, :price, :special_price_1, :special_price_2, :special_price_3, :delivery_date_option_id, :registered_option_id, :proof_delivery_option_id, :proof_contents_option_id, :personal_receipt_option_id, :delivery_date_option_price, :registered_option_price, :proof_delivery_option_price, :proof_contents_option_price, :personal_receipt_option_price)
   end
 
 
