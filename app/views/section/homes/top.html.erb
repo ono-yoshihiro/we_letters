@@ -1,25 +1,67 @@
 <main>
-  <div class = "container">
+  <div class = "container-fluid">
     <div class = "row">
-      <div class = "col-2">
-        トップページ
+      <div class = "col-3 offset-1"><!--menuの表示域-->
+        <div class = "row">
+          <table class = "table table-borderless table-hover">
+            <tr>
+              <th>MENU</th>
+            </tr>
+            <% if admin_signed_in? %>
+              <tr>
+                <td><%= link_to "本日の差出郵便の確認・確定", admin_send_letters_path %></td>
+              </tr>
+              <tr>
+                <td><%= link_to "郵便種別の一覧・編集", admin_types_path %></td>
+              </tr>
+              <tr>
+                <% if PostOffice.exists? %>
+                  <td><%= link_to "差出郵便局の編集", edit_admin_post_office_path(1) %></td>
+                <% else %>
+                  <td><%= link_to "差出郵便局の登録", new_admin_post_office_path %></td>
+                <% end %>
+              </tr>
+              <tr>
+                <td><%= link_to "差出郵便の履歴確認", admin_send_letters_all_path %></td>
+              </tr>
+            <% elsif section_signed_in? %>
+              <tr>
+                <td><%= link_to "差出郵便の登録", letters_path %></td>
+              </tr>
+              <tr>
+                <td><%= link_to "予算の登録", budgets_path %></td>
+              </tr>
+              <tr>
+                <td><%= link_to "差出郵便の履歴確認", send_letters_path %></td>
+              </tr>
+            <% else %>
+              <tr>
+                <td>ログインしてください。</td>
+              </tr>
+            <% end %>
+
+          </table>
+        </div>
       </div>
+
+      <div class = "col-7 offset-1"><!--掲示板の表示域-->
+        掲示板
+      </div>
+
     </div>
 
-    <div class = "row">
-
-      <div class = "col-5">
-        <%= link_to "ログイン", new_section_session_path %>
+<!--      <div class = "col-5">
+        < %= link_to "ログイン", new_section_session_path %>
       </div>
 
       <div class = "col-2">
       </div>
 
       <div class = "col-5">
-        <%= link_to "管理者ログイン", new_admin_session_path %>
+        < %= link_to "管理者ログイン", new_admin_session_path %>
       </div>
 
-    </div>
+    </div>-->
 
   </div>
 </main>

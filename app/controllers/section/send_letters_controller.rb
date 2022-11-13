@@ -3,6 +3,7 @@ class Section::SendLettersController < ApplicationController
   def new
     @send_letter = SendLetter.new
     @letters = current_section.letters.all
+    @payment_budgets = current_section.payment_budgets.all.where(is_deleted: true)
   end
 
   def create

@@ -5,7 +5,7 @@
         予算編集
       </div>
     </div>
-    <%= form_with model: @budget, url: update_section_budget_path, method: :patch do |f| %>
+    <%= form_with model: @budget, url: "/budgets/#{@budget.id}", method: :patch do |f| %>
       <div class = "row" style = "margin-top: 40px">
         <div class = "col-2">
           <label for = "name">予算名</label>

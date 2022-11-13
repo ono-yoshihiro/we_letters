@@ -65,7 +65,7 @@
           予算選択
         </div>
         <div class = "col-4">
-          <% current_section.payment_budgets.all.each do |payment_budget| %>
+          <% @payment_budgets.each do |payment_budget| %>
             <label><%= f.radio_button(:payment_budget_id, payment_budget.id) %><%= payment_budget.budget.name %></label>
           <% end %>
         </div>

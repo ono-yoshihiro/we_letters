@@ -1,14 +1,17 @@
 class Section::BudgetsController < ApplicationController
 
   def index
-    @budgets = Budget.all
+    @budgets = Budget.where(is_deleted: false)
     @budget = Budget.new
-    @payment_budget = PaymentBudget.new
   end
 
   def create
     @budget = Budget.new(budget_params)
     if @budget.save
+      sections = Section.all
+      sections.each do |section|
+      PaymentBudget.create(section_id: section.id, budget_id: @budget.id)
+      end
       redirect_to budgets_path
     else
       render :index
@@ -34,10 +37,15 @@ class Section::BudgetsController < ApplicationController
     redirect_to budgets_path
   end
 
-  private
+  def logical_delete
+    budget = Budget.find(params[:id])
+    budget.update(is_deleted: true)
+    redirect_to budgets_path
+  end
 
+  private
   def budget_params
-    params.require(:budget).permit(:name)
+    params.require(:budget).permit(:name, :is_deleted)
   end
 
 end

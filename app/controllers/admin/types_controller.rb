@@ -1,23 +1,7 @@
 class Admin::TypesController < ApplicationController
 
-  def new
-    @type = Type.new
-  end
-
-  def create
-    @type = Type.new(type_params)
-    if @type.save
-      redirect_to admin_types_path
-    else
-      render :new
-    end
-  end
-
   def index
     @types = Type.page(params[:page]).per(8)
-  end
-
-  def show
   end
 
   def edit

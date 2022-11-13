@@ -9,9 +9,10 @@ root :to => 'section/homes#top'
   }
 
   namespace :admin do
+    get 'send_letters_all' => 'send_letters#index_all'
     patch 'send_letters/update_all' => 'send_letters#update_all'
-    resources :types, only: [:index, :new, :create, :show, :edit, :update]
-    resources :post_offices, only: [:new, :create, :show, :edit, :update]
+    resources :types, only: [:index, :edit, :update]
+    resources :post_offices, only: [:new, :create, :edit, :update]
     resources :send_letters, only: [:index, :update]
   end
 
@@ -29,9 +30,10 @@ root :to => 'section/homes#top'
     get 'budgets' => 'budgets#index'
     post 'budgets' => 'budgets#create'
     get 'budgets/:id/edit' => 'budgets#edit', as: 'edit_section_budget'
-    patch 'budgets/:id' => 'budgets#update', as: 'update_section_budget'
-    delete 'budgets/:id' => 'budgets#destroy'
+    patch 'budgets/:id' => 'budgets#update'
+    patch 'budget/:id' => 'budgets#logical_delete'
     post 'payment_budgets' => 'payment_budgets#create'
+    patch 'payment_budget/:id' => 'payment_budgets#logical_delete'
     get 'letters' => 'letters#index'
     post 'letters' => 'letters#create'
     patch 'letters/:id' => 'letters#update'

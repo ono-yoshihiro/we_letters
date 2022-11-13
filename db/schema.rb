@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_110330) do
 
   create_table "budgets", force: :cascade do |t|
     t.string "name", null: false
+    t.boolean "is_deleted", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_110330) do
   create_table "payment_budgets", force: :cascade do |t|
     t.integer "section_id", null: false
     t.integer "budget_id", null: false
+    t.boolean "is_deleted", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

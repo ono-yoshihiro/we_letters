@@ -13,10 +13,6 @@ class Admin::PostOfficesController < ApplicationController
     end
   end
 
-  def show
-    @post_office = PostOffice.find(params[:id])
-  end
-
   def edit
     @post_office = PostOffice.find(params[:id])
   end

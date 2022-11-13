@@ -28,9 +28,9 @@
         <thead>
           <tr>
             <th>予算名</th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th>編集</th>
+            <th>削除</th>
+            <th>支払予算登録</th>
           </tr>
         </thead>
         <tbody>
@@ -38,15 +38,12 @@
             <tr>
               <td><%= budget.name %></td>
               <td><%= link_to "編集する", edit_section_budget_path(budget.id), class: "btn btn-primary" %></td>
-              <td><%= link_to "削除する", "/budgets/#{budget.id}", method: :delete, class: "btn btn-danger" %></td>
+              <td><%= link_to "削除する", "/budget/#{budget.id}", method: :patch, class: "btn btn-danger" %></td>
               <td>
-                <% if budget.payment_budgets.find_by(section_id: current_section.id).present? %>
-                  支払予算として登録済
+                <% if budget.payment_budgets.find_by(section_id: current_section.id).is_deleted == true %>
+                  <%= link_to "解除する", "/payment_budget/#{budget.payment_budgets.find_by(section_id: current_section.id).id}", method: :patch, class: "btn btn-danger" %>
                 <% else %>
-                  <%= form_with model: @payment_budget, url: payment_budgets_path, method: :post do |f| %>
-                    <%= f.hidden_field :budget_id, :value => budget.id %>
-                    <%= f.submit "支払予算として登録する", class: "btn btn-success" %>
-                  <% end %>
+                  <%= link_to "登録する", "/payment_budget/#{budget.payment_budgets.find_by(section_id: current_section.id).id}", method: :patch, class: "btn btn-success" %>
                 <% end %>
               </td>
             </tr>
