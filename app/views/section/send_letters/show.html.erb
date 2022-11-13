@@ -1,0 +1,67 @@
+<main>
+  <div class = "container-fluid">
+    <div class = "row">
+      <div class = "col-4">
+        <div class = "row">
+          <div class = "col-12">
+            差出郵便履歴詳細
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class = "row">
+      <table class = "table table-bordered">
+        <thead>
+          <tr>
+            <th>種類</th>
+            <th>オプション</th>
+            <th>通数</th>
+            <th>小計金額</th>
+          </tr>
+        </thead>
+        <% @send_letter.letter_details.each do |letter_detail| %>
+          <tbody>
+            <tr>
+              <td>
+                <%= letter_detail.type.type_name.type_name %><br>
+                <% if letter_detail.type.weight_id != 1 %>
+                  <%= letter_detail.type.weight.weight %><br>
+                <% end %>
+                <% if letter_detail.type.size_id != 1 %>
+                  <%= letter_detail.type.size.size %><br>
+                <% end %>
+                <% if letter_detail.type.address_id != 1 %>
+                  <%= letter_detail.type.address.address %><br>
+                <% end %>
+                <% if letter_detail.type.barcode_id != 1 %>
+                  <%= letter_detail.type.barcode.barcode %><br>
+                <% end %>
+              </td>
+              <td>
+                <% if letter_detail.type.delivery_date_option_id != 1 %>
+                  <%= letter_detail.type.delivery_date_option.option %><br>
+                <% end %>
+                <% if letter_detail.type.registered_option_id != 1 %>
+                  <%= letter_detail.type.registered_option.option %><br>
+                <% end %>
+                <% if letter_detail.type.proof_delivery_option_id != 1 %>
+                  <%= letter_detail.type.proof_delivery_option.option %><br>
+                <% end %>
+                <% if letter_detail.type.proof_contents_option_id != 1 %>
+                  <%= letter_detail.type.proof_delivery_option.option %><br>
+                <% end %>
+                <% if letter_detail.type.personal_receipt_option_id != 1 %>
+                  <%= letter_detail.type.personal_receipt_option.option %><br>
+                <% end %>
+              </td>
+              <td>
+                <%= letter_detail.number %>
+              </td>
+              <td>小計金額</td>
+            </tr>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</main>

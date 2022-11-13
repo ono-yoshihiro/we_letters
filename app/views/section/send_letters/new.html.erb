@@ -3,7 +3,7 @@
     <div class = "row">
       <div class = "row">
         <div class = "col-12">
-          予算選択
+          差出郵便の内容
         </div>
       </div>
     </div>
@@ -59,17 +59,22 @@
         <% end %>
       </table>
     </div>
-    <%= form_with model: @letter, url: send_letters_path, method: :post do |f| %>
+    <%= form_with model: @send_letter, url: send_letters_path, method: :post do |f| %>
       <div class = "row">
         <div class = "col-2">
           予算選択
         </div>
         <div class = "col-4">
-          <%= f.collection_select :budget_name, Budget.all, :name, :name, {},{class: "form-control"} %><br><br>
+          <% current_section.payment_budgets.all.each do |payment_budget| %>
+            <label><%= f.radio_button(:payment_budget_id, payment_budget.id) %><%= payment_budget.budget.name %></label>
+          <% end %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <%= f.submit '登録する', class: "btn btn-success" %>
         </div>
       </div>
     <% end %>
   </div>
 </main>
-
-

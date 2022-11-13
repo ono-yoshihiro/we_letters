@@ -3,6 +3,7 @@ class Section::BudgetsController < ApplicationController
   def index
     @budgets = Budget.all
     @budget = Budget.new
+    @payment_budget = PaymentBudget.new
   end
 
   def create
@@ -34,6 +35,7 @@ class Section::BudgetsController < ApplicationController
   end
 
   private
+
   def budget_params
     params.require(:budget).permit(:name)
   end

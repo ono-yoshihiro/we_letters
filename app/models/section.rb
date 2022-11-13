@@ -5,6 +5,7 @@ class Section < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :letters, dependent: :destroy
-  has_many :budgets, dependent: :destroy
+  has_many :payment_budgets, dependent: :destroy
+  has_many :send_letters, dependent: :destroy
 
 end

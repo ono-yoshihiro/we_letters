@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_07_122048) do
+ActiveRecord::Schema.define(version: 2022_11_09_110330) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "address", null: false
@@ -44,6 +44,15 @@ ActiveRecord::Schema.define(version: 2022_11_07_122048) do
 
   create_table "delivery_date_options", force: :cascade do |t|
     t.string "option", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "letter_details", force: :cascade do |t|
+    t.integer "send_letter_id", null: false
+    t.integer "type_id", null: false
+    t.integer "applicable_price"
+    t.integer "number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -112,8 +121,9 @@ ActiveRecord::Schema.define(version: 2022_11_07_122048) do
 
   create_table "send_letters", force: :cascade do |t|
     t.integer "section_id", null: false
-    t.integer "budget_name", null: false
-    t.integer "number", null: false
+    t.integer "payment_budget_id", null: false
+    t.integer "total_price"
+    t.boolean "status", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
