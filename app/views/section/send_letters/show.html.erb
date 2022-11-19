@@ -14,7 +14,9 @@
         <thead>
           <tr>
             <th>種類</th>
+            <th>適用単価</th>
             <th>オプション</th>
+            <th>オプション価格</th>
             <th>通数</th>
             <th>小計金額</th>
           </tr>
@@ -38,6 +40,11 @@
                 <% end %>
               </td>
               <td>
+                <% if letter_detail.applicable_price == nil %>
+                <% else %><%= letter_detail.applicable_price.to_s(:delimited) %>
+                <% end %>
+              </td>
+              <td>
                 <% if letter_detail.type.delivery_date_option_id != 1 %>
                   <%= letter_detail.type.delivery_date_option.option %><br>
                 <% end %>
@@ -55,9 +62,17 @@
                 <% end %>
               </td>
               <td>
-                <%= letter_detail.number %>
+                <%= letter_detail.type.option_price.to_s(:delimited) %>
               </td>
-              <td>小計金額</td>
+              <td>
+                <%= letter_detail.number.to_s(:delimited) %>
+              </td>
+              <td>
+                <% if letter_detail.applicable_price == nil %>
+                <% else %>
+                <%= letter_detail.subtotal_price.to_s(:delimited) %>
+                <% end %>
+              </td>
             </tr>
           </tbody>
         <% end %>

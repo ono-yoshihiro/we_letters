@@ -30,15 +30,19 @@
                 <td></td>
                 <td></td>
                 <td>
-                  <% if send_letter.status == false %>
-                    <%= form_with model: send_letter, url: admin_send_letter_path(send_letter.id), method: :patch do |f| %>
-                      未確定　　<%= f.hidden_field :status, :value => true %><%= f.submit "確定する", class: "btn btn-success" %>
-                    <% end %>
-                  <% else %>
-                    <%= form_with model: send_letter, url: admin_send_letter_path(send_letter.id), method: :patch do |f| %>
-                      確定　　<%= f.hidden_field :status, :value => false %><%= f.submit "未確定に戻す", class: "btn btn-danger" %>
-                      <!--falseを送るが実際にはnilが入るため、コントローラでfalseに置き換える-->
-                    <% end %>
+                <!--個別に確定・未確定を切り替えられるようにしていたときのコード
+                  < % if send_letter.status == false %>
+                    < %= form_with model: send_letter, url: admin_send_letter_path(send_letter.id), method: :patch do |f| %>
+                      未確定　　< %= f.hidden_field :status, :value => true %>< %= f.submit "確定する", class: "btn btn-success" %>
+                    < % end %>
+                  < % else %>
+                    < %= form_with model: send_letter, url: admin_send_letter_path(send_letter.id), method: :patch do |f| %>
+                      確定　　< %= f.hidden_field :status, :value => false %>< %= f.submit "未確定に戻す", class: "btn btn-danger" %>
+                      ※falseを送るが実際にはnilが入るため、コントローラでfalseに置き換える
+                    < % end %>
+                  < % end %>-->
+                  <% if send_letter.status == false %>未確定
+                  <% else %>確定
                   <% end %>
                 </td>
                 <td><%= link_to "詳細を表示する", "/send_letters/#{send_letter.id}" %></td>
@@ -57,7 +61,11 @@
     </div>
     <div class = "row">
       <div class = "col-3">
-        <%= link_to "全て確定する", admin_send_letters_update_all_path, method: :patch, class: "btn btn-success" %>
+        <% if @send_letters.exists?(status: true) %>
+          <%= link_to "未確定に戻す", admin_send_letters_update_all_path, method: :patch, class: "btn btn-danger" %>
+        <% else %>
+          <%= link_to "全て確定する", admin_send_letters_update_all_path, method: :patch, class: "btn btn-success" %>
+        <% end %>
       </div>
     </div>
   </div>

@@ -213,10 +213,13 @@
           </table>
         </div>
         <div class = "row">
-          <div class = "col-8">
+          <div class = "col-2">
             <%= link_to "本日の郵便を登録する", send_letters_new_path, class: "btn btn-success" %>
           </div>
-
+<!--取り消したら全てをsend_letterが持つletter_detailを全てletterに戻す（これから機能追加する）-->
+          <div class = "col-2 offset-1">
+            <%= link_to "登録済の郵便を取り消す", send_letters_new_path, class: "btn btn-danger" %>
+          </div>
       </div>
     </div>
   </div>
