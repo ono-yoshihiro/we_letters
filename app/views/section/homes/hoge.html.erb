@@ -1,0 +1,60 @@
+<form>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="maker" value="food" onclick="formSwitch()" checked>
+        <label class="form-check-label"> 好きな食べ物</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="maker" value="place" onclick="formSwitch()">
+        <label class="form-check-label"> 好きな場所</label>
+    </div>
+</form>
+
+<ul>
+    <div id="foodList">
+        <li>お寿司</li>
+        <li>アイスクリーム</li>
+        <li>チーズケーキ</li>
+        <li>お団子</li>
+    </div>
+    <div id="placeList">
+        <li>自由が丘</li>
+        <li>下北沢</li>
+        <li>吉祥寺</li>
+        <li>高円寺</li>
+    </div>
+</ul>
+
+<script>
+   function formSwitch() {
+        hoge = document.getElementsByName('maker')
+        if (hoge[0].checked) {
+            // 好きな食べ物が選択されたら下記を実行します
+            document.getElementById('foodList').style.display = "";
+            document.getElementById('placeList').style.display = "none";
+            var inputItem = document.getElementById("placeList").getElementsByTagName("input");
+            for(var i=0; i<inputItem.length; i++){
+            inputItem[i].checked = "";
+            }
+        } else if (hoge[1].checked) {
+            // 好きな場所が選択されたら下記を実行します
+            document.getElementById('foodList').style.display = "none";
+            var inputItem = document.getElementById("foodList").getElementsByTagName("input");
+            for(var i=0; i<inputItem.length; i++){
+            inputItem[i].checked = "";
+            }
+            document.getElementById('placeList').style.display = "";
+        } else {
+            document.getElementById('foodList').style.display = "none";
+            var inputItem = document.getElementById("foodList").getElementsByTagName("input");
+            for(var i=0; i<selectItem.length; i++){
+            inputItem[i].value = "";
+            }
+            document.getElementById('placeList').style.display = "none";
+            var inputItem = document.getElementById("placeList").getElementsByTagName("input");
+            for(var i=0; i<inputItem.length; i++){
+                inputItem[i].checked = "";
+            }
+        }
+    }
+    window.addEventListener('load', formSwitch());
+</script>

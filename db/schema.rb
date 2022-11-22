@@ -124,7 +124,6 @@ ActiveRecord::Schema.define(version: 2022_11_09_110330) do
   create_table "send_letters", force: :cascade do |t|
     t.integer "section_id", null: false
     t.integer "payment_budget_id", null: false
-    t.integer "total_price"
     t.boolean "status", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

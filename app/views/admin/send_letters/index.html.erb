@@ -27,32 +27,18 @@
               <tr>
                 <td><%= send_letter.section.name %></td>
                 <td><%= send_letter.payment_budget.budget.name %></td>
-                <td></td>
-                <td></td>
+                <td><%= send_letter.total_number %></td>
                 <td>
-                <!--個別に確定・未確定を切り替えられるようにしていたときのコード
-                  < % if send_letter.status == false %>
-                    < %= form_with model: send_letter, url: admin_send_letter_path(send_letter.id), method: :patch do |f| %>
-                      未確定　　< %= f.hidden_field :status, :value => true %>< %= f.submit "確定する", class: "btn btn-success" %>
-                    < % end %>
-                  < % else %>
-                    < %= form_with model: send_letter, url: admin_send_letter_path(send_letter.id), method: :patch do |f| %>
-                      確定　　< %= f.hidden_field :status, :value => false %>< %= f.submit "未確定に戻す", class: "btn btn-danger" %>
-                      ※falseを送るが実際にはnilが入るため、コントローラでfalseに置き換える
-                    < % end %>
-                  < % end %>-->
+                  <% if send_letter.status == false %>
+                  <% else %><%= send_letter.total_price.to_s(:delimited) %>
+                  <% end %>
+                </td>
+                <td>
                   <% if send_letter.status == false %>未確定
                   <% else %>確定
                   <% end %>
                 </td>
                 <td><%= link_to "詳細を表示する", "/send_letters/#{send_letter.id}" %></td>
-                <td>
-                  <% if send_letter.status = "false" %>
-                    編集リンク
-                  <% else %>
-                    編集不可
-                  <% end %>
-                </td>
               </tr>
             <% end %>
           </tbody>
@@ -69,4 +55,5 @@
       </div>
     </div>
   </div>
+  <%= link_to "差出票を印刷する", postage_slip_index_path(format: "pdf") %>
 </main>

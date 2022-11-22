@@ -68,22 +68,9 @@ class Admin::SendLettersController < ApplicationController
             letter_detail.update(applicable_price: nil)
           end
         end
+        redirect_to admin_send_letters_path
       end
   end
-
-
-##個別の確定処理はしないようにしたためコメントアウトしておく
-#  def update
-#    send_letter = SendLetter.find(params[:id])
-#    if send_letter_params[:status] == nil
-#      send_letter_params[:status] == false
-#    end
-#    if send_letter.update(status: send_letter_params[:status])
-#      redirect_to admin_send_letters_path
-#    else
-#      render :index
-#    end
-#  end
 
   def index_all
     @send_letters = SendLetter.all
