@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 root :to => 'section/homes#top'
-resources :postage_slip, only: [:index]
+resources :report_pdfs, only: [:index]
 
 #管理者用ページのroute
   devise_for :admin,skip: [:passwords], controllers: {
@@ -12,7 +12,6 @@ resources :postage_slip, only: [:index]
   namespace :admin do
     get 'send_letters_all' => 'send_letters#index_all'
     patch 'send_letters/update_all' => 'send_letters#update_all'
-    resources :types, only: [:index, :edit, :update]
     resources :post_offices, only: [:new, :create, :edit, :update]
     resources :send_letters, only: [:index]
   end
@@ -44,6 +43,7 @@ resources :postage_slip, only: [:index]
     post 'send_letters' => 'send_letters#create'
     get 'send_letters' => 'send_letters#index'
     get 'send_letters/:id' => 'send_letters#show'
+    delete 'send_letters/:id' => 'send_letters#destroy'
     get 'hoge' => 'homes#hoge'
 
   end

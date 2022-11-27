@@ -81,8 +81,10 @@ ActiveRecord::Schema.define(version: 2022_11_09_110330) do
   end
 
   create_table "post_offices", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "post_office_name", null: false
     t.string "postal_code", null: false
+    t.string "sender_name", null: false
+    t.string "customer_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

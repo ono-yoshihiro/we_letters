@@ -7,7 +7,7 @@ class Admin::PostOfficesController < ApplicationController
   def create
     @post_office = PostOffice.new(post_office_params)
     if @post_office.save
-      redirect_to admin_post_office_path(@post_office.id)
+      redirect_to edit_admin_post_office_path(@post_office.id)
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Admin::PostOfficesController < ApplicationController
 
   private
   def post_office_params
-    params.require(:post_office).permit(:name, :postal_code)
+    params.require(:post_office).permit(:post_office_name, :postal_code, :sender_name, :customer_number)
   end
 
 end

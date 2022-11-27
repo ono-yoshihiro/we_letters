@@ -13,7 +13,7 @@
           </label>
         </div>
         <div class = "col-3">
-          <%= f.text_field :name, class: "form-control" %>
+          <%= f.text_field :post_office_name, class: "form-control" %>
         </div>
       </div>
       <div class = "row">
@@ -24,6 +24,26 @@
         </div>
         <div class = "col-3">
           <%= f.text_field :postal_code, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "sender_name" style = "padding-left: 1em">
+            差出人氏名
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :sender_name, class: "form-control" %>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-2">
+          <label for = "customer_number" style = "padding-left: 1em">
+            お客様番号
+          </label>
+        </div>
+        <div class = "col-3">
+          <%= f.text_field :customer_number, class: "form-control" %>
         </div>
       </div>
       <div class = "row">

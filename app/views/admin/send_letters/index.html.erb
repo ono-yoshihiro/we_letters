@@ -54,6 +54,13 @@
         <% end %>
       </div>
     </div>
+    <div class = "row">
+      <% if @send_letters.find_by(status:true) %>
+        <div class = "col-3">
+          <%= link_to "差出票を印刷する", report_pdfs_path(format: "pdf"), class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-  <%= link_to "差出票を印刷する", postage_slip_index_path(format: "pdf") %>
+
 </main>

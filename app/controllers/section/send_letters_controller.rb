@@ -8,12 +8,11 @@ class Section::SendLettersController < ApplicationController
 
   def create
     if SendLetter.where("created_at >= ?", Date.today).where(section_id: current_section.id).where(payment_budget_id: send_letter_params[:payment_budget_id]).present?
-#      message = "#{view_context.link_to '本日の差出郵便は登録済みです。新たに登録する場合は一度取り消してください。', "/"}".html_safe
       redirect_to send_letters_new_path, notice: '本日の差出郵便は登録済みです。新たに登録する場合は一度取り消してください。'
     else
-    @send_letter = SendLetter.new(send_letter_params)
-    @send_letter.section_id = current_section.id
-    @send_letter.save
+      @send_letter = SendLetter.new(send_letter_params)
+      @send_letter.section_id = current_section.id
+      @send_letter.save
       current_section.letters.each do |letter|
         letter_detail = LetterDetail.new
         letter_detail.send_letter_id = @send_letter.id
@@ -32,6 +31,17 @@ class Section::SendLettersController < ApplicationController
 
   def show
     @send_letter = SendLetter.find(params[:id])
+  end
+
+  def destroy
+    send_letter = SendLetter.find(params[:id])
+    letters = current_section.letters.all
+    letters.destroy_all
+    send_letter.letter_details.each do |letter_detail|
+      Letter.create(section_id: current_section.id, type_id: letter_detail.type_id, number: letter_detail.number)
+    end
+    send_letter.destroy
+    redirect_to letters_path
   end
 
   private

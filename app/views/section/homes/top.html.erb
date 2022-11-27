@@ -12,9 +12,6 @@
                 <td><%= link_to "本日の差出郵便の確認・確定", admin_send_letters_path %></td>
               </tr>
               <tr>
-                <td><%= link_to "郵便種別の一覧・編集", admin_types_path %></td>
-              </tr>
-              <tr>
                 <% if PostOffice.exists? %>
                   <td><%= link_to "差出郵便局の編集", edit_admin_post_office_path(1) %></td>
                 <% else %>

@@ -20,7 +20,7 @@
               <th>支払予算</th>
               <th>状態</th>
               <th>詳細</th>
-              <th>編集</th>
+              <th>削除</th>
             </tr>
           </thead>
           <tbody>
@@ -39,10 +39,10 @@
                 </td>
                 <td><%= link_to "詳細を表示する", "/send_letters/#{send_letter.id}" %></td>
                 <td>
-                  <% if send_letter.status = "false" %>
-                    編集リンク
+                  <% if send_letter.status = "false"%><!--作成日が当日のものの条件を追加すること！-->
+                    <%= link_to "削除", "/send_letters/#{send_letter.id}", method: :delete, class: "btn btn-danger" %>
                   <% else %>
-                    編集不可
+                    削除不可(削除する場合は管理者に連絡してください。)
                   <% end %>
                 </td>
               </tr>

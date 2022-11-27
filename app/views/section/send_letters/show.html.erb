@@ -4,7 +4,7 @@
       <div class = "col-4">
         <div class = "row">
           <div class = "col-12">
-            差出郵便履歴詳細
+            <%= @send_letter.created_at.strftime('%Y/%m/%d') %>　<%= @send_letter.section.name %>(<%= @send_letter.payment_budget.budget.name%>)の詳細
           </div>
         </div>
       </div>
