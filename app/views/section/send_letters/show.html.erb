@@ -1,82 +1,84 @@
+<!--部署　差出郵便詳細画面-->
 <main>
-  <div class = "container-fluid">
-    <div class = "row">
-      <div class = "col-4">
-        <div class = "row">
-          <div class = "col-12">
-            <%= @send_letter.created_at.strftime('%Y/%m/%d') %>　<%= @send_letter.section.name %>(<%= @send_letter.payment_budget.budget.name%>)の詳細
-          </div>
-        </div>
-      </div>
+  <div class="container">
+    <br><div class="row">
+      <br><h3 class="col-7"><%= @send_letter.created_at.strftime('%Y/%m/%d') %>　<%= @send_letter.section.name %>(<%= @send_letter.payment_budget.budget.name%>)の差出郵便詳細</h3><br>
+      <h5 class="col-3 d-flex align-items-center">合計金額 <%= @send_letter.total_price.to_s(:delimited) %>円</h5>
+      <% if section_signed_in? && @send_letter.section_id == current_section.id && @send_letter.status == false %>
+        <span class="col-2"><%=link_to "削除", "send_letters/#{@send_letter.id}", method: :delete, class: "btn btn-danger btn-sm" %></span>
+      <% else %>
+        <span></span>
+      <% end %>
     </div>
-    <div class = "row">
-      <table class = "table table-bordered">
-        <thead>
-          <tr>
-            <th>種類</th>
-            <th>適用単価</th>
-            <th>オプション</th>
-            <th>オプション価格</th>
-            <th>通数</th>
-            <th>小計金額</th>
-          </tr>
-        </thead>
-        <% @send_letter.letter_details.each do |letter_detail| %>
-          <tbody>
-            <tr>
-              <td>
-                <%= letter_detail.type.type_name.type_name %><br>
-                <% if letter_detail.type.weight_id != 1 %>
-                  <%= letter_detail.type.weight.weight %><br>
-                <% end %>
-                <% if letter_detail.type.size_id != 1 %>
-                  <%= letter_detail.type.size.size %><br>
-                <% end %>
-                <% if letter_detail.type.address_id != 1 %>
-                  <%= letter_detail.type.address.address %><br>
-                <% end %>
-                <% if letter_detail.type.barcode_id != 1 %>
-                  <%= letter_detail.type.barcode.barcode %><br>
-                <% end %>
-              </td>
-              <td>
-                <% if letter_detail.applicable_price == nil %>
-                <% else %><%= letter_detail.applicable_price.to_s(:delimited) %>
-                <% end %>
-              </td>
-              <td>
-                <% if letter_detail.type.delivery_date_option_id != 1 %>
-                  <%= letter_detail.type.delivery_date_option.option %><br>
-                <% end %>
-                <% if letter_detail.type.registered_option_id != 1 %>
-                  <%= letter_detail.type.registered_option.option %><br>
-                <% end %>
-                <% if letter_detail.type.proof_delivery_option_id != 1 %>
-                  <%= letter_detail.type.proof_delivery_option.option %><br>
-                <% end %>
-                <% if letter_detail.type.proof_contents_option_id != 1 %>
-                  <%= letter_detail.type.proof_delivery_option.option %><br>
-                <% end %>
-                <% if letter_detail.type.personal_receipt_option_id != 1 %>
-                  <%= letter_detail.type.personal_receipt_option.option %><br>
-                <% end %>
-              </td>
-              <td>
-                <%= letter_detail.type.option_price.to_s(:delimited) %>
-              </td>
-              <td>
-                <%= letter_detail.number.to_s(:delimited) %>
-              </td>
-              <td>
-                <% if letter_detail.applicable_price == nil %>
-                <% else %>
+
+    <table class = "table table-bordered table-sm small">
+      <thead class="text-center">
+        <tr>
+          <th class="border-dark" style="width:20%">種類</th>
+          <th class="border-dark" style="width:10%">適用単価</th>
+          <th class="border-dark" style="width:20%">オプション</th>
+          <th class="border-dark" style="width:10%">オプション価格</th>
+          <th class="border-dark" style="width:10%">通数</th>
+          <th class="border-dark" style="width:20%">小計金額</th>
+        </tr>
+      </thead>
+      <% @send_letter.letter_details.order("type_id").each do |letter_detail| %>
+        <tbody class="border-dark">
+          <tr class="border-dark" style="height:90px">
+            <td class="border-dark" style = "vertical-align: middle">
+              <%= letter_detail.type.type_name.type_name %>
+              <% if letter_detail.type.weight_id != 1 %>
+                <%= letter_detail.type.weight.weight %><br>
+              <% end %>
+              <% if letter_detail.type.size_id != 1 %>
+                <%= letter_detail.type.size.size %><br>
+              <% end %>
+              <% if letter_detail.type.address_id != 1 %>
+                <%= letter_detail.type.address.address %><br>
+              <% end %>
+              <% if letter_detail.type.barcode_id != 1 %>
+                <%= letter_detail.type.barcode.barcode %><br>
+              <% end %>
+            </td>
+            <td class="border-dark text-right" style = "vertical-align: middle">
+              <% if letter_detail.applicable_price == nil %>
+              <% else %><%= letter_detail.applicable_price.to_s(:delimited) %>
+              <% end %>
+            </td>
+            <td class="border-dark" style = "vertical-align: middle">
+              <% if letter_detail.type.delivery_date_option_id != 1 %>
+                <%= letter_detail.type.delivery_date_option.option %>
+              <% end %>
+              <% if letter_detail.type.registered_option_id != 1 %>
+                <%= letter_detail.type.registered_option.option %><br>
+              <% end %>
+              <% if letter_detail.type.proof_delivery_option_id != 1 %>
+                <%= letter_detail.type.proof_delivery_option.option %><br>
+              <% end %>
+              <% if letter_detail.type.proof_contents_option_id != 1 %>
+                <%= letter_detail.type.proof_delivery_option.option %><br>
+              <% end %>
+              <% if letter_detail.type.personal_receipt_option_id != 1 %>
+                <%= letter_detail.type.personal_receipt_option.option %><br>
+              <% end %>
+            </td>
+            <td class="border-dark text-right" style = "vertical-align: middle">
+              <%= letter_detail.type.option_price.to_s(:delimited) %>
+            </td>
+            <td class="border-dark text-right" style = "vertical-align: middle">
+              <%= letter_detail.number.to_s(:delimited) %>
+            </td>
+            <td class="border-dark text-right" style = "vertical-align: middle">
+              <% if letter_detail.applicable_price == nil %>
+                <!--何も表示しない-->
+              <% else %>
                 <%= letter_detail.subtotal_price.to_s(:delimited) %>
-                <% end %>
-              </td>
-            </tr>
-          </tbody>
-        <% end %>
-      </table>
-    </div>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+
   </div>
 </main>

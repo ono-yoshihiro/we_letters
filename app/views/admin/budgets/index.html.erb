@@ -1,0 +1,67 @@
+<!--管理者　予算登録画面-->
+<main>
+  <div class="text-center">
+    <%= form_with model: @budget, url: admin_budgets_path, method: :post do |f| %>
+      <br><h3>予算登録</h3><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :name, placeholder: "予算名", autofocus: true, autocomplete: "name", class: "form-control" %>
+        </div>
+      </div><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+        <%= f.submit "登録", class: "btn btn-primary form-control"%>
+        </div>
+      </div>
+    <% end %>
+  </div><br><hr>
+  <div class="container text-center">
+    <br><h3>予算一覧</h3><br>
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <h5 class="text-success">登録予算</h5>
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th class="border-dark">予算名</th>
+              <th class="border-dark">編集</th>
+              <th class="border-dark">削除</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% if @budgets.present? %>
+            <% @budgets.each do |budget| %>
+              <tr>
+                <td class="border-dark" style="vertical-align:middle"><%= budget.name %></td>
+                <td class="border-dark" style="vertical-align:middle"><%= link_to "編集する", edit_admin_budget_path(budget.id), class: "btn btn-primary btn-sm" %></td>
+                <td class="border-dark" style="vertical-align:middle"><%= link_to "削除する", "budget/#{budget.id}", method: :patch, class: "btn btn-danger btn-sm" %></td>
+              </tr>
+            <% end %>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-6">
+        <h5 class="text-danger">削除された予算</h5>
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th class="border-dark">予算名</th>
+              <th class="border-dark">復活させる</th>
+              <th class="border-dark">完全に削除する</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @removed_budgets.each do |removed_budget| %>
+              <tr>
+                <td class="border-dark" style="vertical-align:middle"><%= removed_budget.name %></td>
+                <td class="border-dark" style="vertical-align:middle"><%= link_to "復活させる", "budget/#{removed_budget.id}", method: :patch, class: "btn btn-success btn-sm" %></td>
+                <td class="border-dark" style="vertical-align:middle"><%= link_to "完全に削除する", admin_budget_path(removed_budget), method: :delete, class: "btn btn-danger btn-sm" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

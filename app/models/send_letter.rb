@@ -3,6 +3,8 @@ class SendLetter < ApplicationRecord
   belongs_to :section
   belongs_to :payment_budget
 
+  default_scope -> { order(:section_id, :payment_budget_id) }
+
   def total_number
     self.letter_details.sum(:number)
   end

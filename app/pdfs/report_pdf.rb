@@ -117,7 +117,9 @@ def initialize(types)
             end
           end
         option_name = delivery_date_option + registered_option + proof_delivery_option + proof_contents_option + personal_receipt_option
-        total_number = LetterDetail.eager_load(:type).where(type: {id: type.id}).sum(:number)
+        letter_details = LetterDetail.where(created_at: Date.today)
+        total_number = letter_details.eager_load(:type).where(type: {id: type.id}).sum(:number)
+        #total_number = LetterDetail.eager_load(:type).where(type: {id: type.id}).sum(:number)
         applicable_price = LetterDetail.find_by(type_id: type.id).applicable_price
         subtotal_price = (LetterDetail.eager_load(:type).where(type: {id: type.id}).sum(:number) * LetterDetail.find_by(type_id: type.id).applicable_price).to_s(:delimited)
         non_standard =

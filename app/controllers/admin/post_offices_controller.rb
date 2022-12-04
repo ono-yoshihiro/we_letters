@@ -5,11 +5,15 @@ class Admin::PostOfficesController < ApplicationController
   end
 
   def create
-    @post_office = PostOffice.new(post_office_params)
-    if @post_office.save
-      redirect_to edit_admin_post_office_path(@post_office.id)
+    if PostOffice.present?
+      render :edit
     else
-      render :new
+      @post_office = PostOffice.new(post_office_params)
+      if @post_office.save
+        redirect_to edit_admin_post_office_path(@post_office.id)
+      else
+        render :new
+      end
     end
   end
 
@@ -20,7 +24,7 @@ class Admin::PostOfficesController < ApplicationController
   def update
     @post_office = PostOffice.find(params[:id])
     if @post_office.update(post_office_params)
-      redirect_to admin_post_office_path(@post_office.id)
+      redirect_to edit_admin_post_office_path(@post_office.id)
     else
       render :edit
     end

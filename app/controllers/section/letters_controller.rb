@@ -1,7 +1,7 @@
 class Section::LettersController < ApplicationController
 
   def index
-    @letters = current_section.letters.all
+    @letters = current_section.letters.order("type_id")
     @letter = Letter.new
     @type_names = TypeName.all
     @weights = Weight.where(id: 2..10)

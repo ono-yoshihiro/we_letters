@@ -11,7 +11,7 @@ class Section::SectionsController < ApplicationController
   def update
     section = current_section
     if section.update(section_params)
-      redirect_to sections_mypage_path
+      redirect_to section_path
     else
       render :edit
     end

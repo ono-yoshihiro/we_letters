@@ -2,8 +2,8 @@ class Section::SendLettersController < ApplicationController
 
   def new
     @send_letter = SendLetter.new
-    @letters = current_section.letters.all
-    @payment_budgets = current_section.payment_budgets.all.where(is_deleted: true)
+    @letters = current_section.letters.order("type_id")
+    @payment_budgets = current_section.payment_budgets.where(registration: true)
   end
 
   def create
@@ -14,11 +14,7 @@ class Section::SendLettersController < ApplicationController
       @send_letter.section_id = current_section.id
       @send_letter.save
       current_section.letters.each do |letter|
-        letter_detail = LetterDetail.new
-        letter_detail.send_letter_id = @send_letter.id
-        letter_detail.type_id = letter.type_id
-        letter_detail.number = letter.number
-        letter_detail.save
+        LetterDetail.create(send_letter_id: @send_letter.id, type_id: letter.type_id, number: letter.number)
       end
       current_section.letters.destroy_all
       redirect_to letters_path
@@ -26,7 +22,7 @@ class Section::SendLettersController < ApplicationController
   end
 
   def index
-    @send_letters = current_section.send_letters.all
+    @send_letters = current_section.send_letters.order("created_at DESC")
   end
 
   def show
@@ -35,13 +31,17 @@ class Section::SendLettersController < ApplicationController
 
   def destroy
     send_letter = SendLetter.find(params[:id])
-    letters = current_section.letters.all
-    letters.destroy_all
-    send_letter.letter_details.each do |letter_detail|
-      Letter.create(section_id: current_section.id, type_id: letter_detail.type_id, number: letter_detail.number)
+    if send_letter.status == true
+      render :index
+    else
+      letters = current_section.letters.all
+      letters.destroy_all
+      send_letter.letter_details.each do |letter_detail|
+        Letter.create(section_id: current_section.id, type_id: letter_detail.type_id, number: letter_detail.number)
+      end
+      send_letter.destroy
+      redirect_to letters_path
     end
-    send_letter.destroy
-    redirect_to letters_path
   end
 
   private

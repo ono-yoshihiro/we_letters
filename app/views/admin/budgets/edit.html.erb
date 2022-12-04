@@ -1,0 +1,18 @@
+<!--管理者　予算登録画面-->
+<main>
+  <div class="text-center">
+    <%= form_with model: @budget, url: admin_budget_path, method: :patch do |f| %>
+      <br><h3>予算編集</h3><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :name, placeholder: "予算名", autofocus: true, autocomplete: "name", class: "form-control" %>
+        </div>
+      </div><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+        <%= f.submit "更新する", class: "btn btn-success form-control"%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</main>

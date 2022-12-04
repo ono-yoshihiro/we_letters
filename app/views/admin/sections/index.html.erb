@@ -1,0 +1,36 @@
+<!--管理者　部署一覧画面-->
+<main>
+  <div class="container text-center">
+    <br><h3>部署一覧</h3><br>
+    <div class="row justify-content-center">
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th class="border-dark">部署名</th>
+            <th class="border-dark">担当者</th>
+            <th class="border-dark">電話番号</th>
+            <th class="border-dark">メールアドレス</th>
+            <th class="border-dark">ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sections.each do |section| %>
+            <tr>
+              <td class="border-dark" style="vertical-align:middle"><%= section.name %></td>
+              <td class="border-dark" style="vertical-align:middle"><%= section.pic_name %></td>
+              <td class="border-dark" style="vertical-align:middle"><%= section.telephone_number %></td>
+              <td class="border-dark" style="vertical-align:middle"><%= section.email %></td>
+              <td class="border-dark" style="vertical-align:middle">
+                <% if section.status == false %>
+                  <%= link_to "利用中", admin_path(section), method: :patch, class: "btn btn-success btn-sm" %>
+                <% else %>
+                  <%= link_to "利用停止中", admin_path(section), method: :patch, class: "btn btn-danger btn-sm" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

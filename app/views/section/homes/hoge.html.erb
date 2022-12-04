@@ -1,60 +1,22 @@
-<form>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="maker" value="food" onclick="formSwitch()" checked>
-        <label class="form-check-label"> 好きな食べ物</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="maker" value="place" onclick="formSwitch()">
-        <label class="form-check-label"> 好きな場所</label>
-    </div>
+<form class="form-signin">
+  <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+  <!-- <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1> -->
+  <h1 class="h3 mb-3 font-weight-normal">サインインする</h1>
+  <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
+  <label for="inputEmail" class="sr-only">メールアドレス</label>
+  <!-- <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus> -->
+  <input type="email" id="inputEmail" class="form-control" placeholder="メールアドレス" required="" autofocus="">
+  <!-- <label for="inputPassword" class="sr-only">Password</label> -->
+  <label for="inputPassword" class="sr-only">パスワード</label>
+  <!-- <input type="password" id="inputPassword" class="form-control" placeholder="Password" required> -->
+  <input type="password" id="inputPassword" class="form-control" placeholder="パスワード" required="">
+  <div class="checkbox mb-3">
+    <label>
+      <!-- <input type="checkbox" value="remember-me"> Remember me -->
+      <input type="checkbox" value="remember-me"> 記憶する
+    </label>
+  </div>
+  <!-- <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button> -->
+  <button class="btn btn-lg btn-primary btn-block" type="submit">サインイン</button>
+  <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
 </form>
-
-<ul>
-    <div id="foodList">
-        <li>お寿司</li>
-        <li>アイスクリーム</li>
-        <li>チーズケーキ</li>
-        <li>お団子</li>
-    </div>
-    <div id="placeList">
-        <li>自由が丘</li>
-        <li>下北沢</li>
-        <li>吉祥寺</li>
-        <li>高円寺</li>
-    </div>
-</ul>
-
-<script>
-   function formSwitch() {
-        hoge = document.getElementsByName('maker')
-        if (hoge[0].checked) {
-            // 好きな食べ物が選択されたら下記を実行します
-            document.getElementById('foodList').style.display = "";
-            document.getElementById('placeList').style.display = "none";
-            var inputItem = document.getElementById("placeList").getElementsByTagName("input");
-            for(var i=0; i<inputItem.length; i++){
-            inputItem[i].checked = "";
-            }
-        } else if (hoge[1].checked) {
-            // 好きな場所が選択されたら下記を実行します
-            document.getElementById('foodList').style.display = "none";
-            var inputItem = document.getElementById("foodList").getElementsByTagName("input");
-            for(var i=0; i<inputItem.length; i++){
-            inputItem[i].checked = "";
-            }
-            document.getElementById('placeList').style.display = "";
-        } else {
-            document.getElementById('foodList').style.display = "none";
-            var inputItem = document.getElementById("foodList").getElementsByTagName("input");
-            for(var i=0; i<selectItem.length; i++){
-            inputItem[i].value = "";
-            }
-            document.getElementById('placeList').style.display = "none";
-            var inputItem = document.getElementById("placeList").getElementsByTagName("input");
-            for(var i=0; i<inputItem.length; i++){
-                inputItem[i].checked = "";
-            }
-        }
-    }
-    window.addEventListener('load', formSwitch());
-</script>

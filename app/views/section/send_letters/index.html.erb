@@ -1,55 +1,34 @@
+<!--部署　差出郵便履歴画面-->
 <main>
-  <div class = "container-fluid">
-    <div class = "row">
-      <div class = "col-4">
-        <div class = "row">
-          <div class = "col-12">
-            差出郵便履歴一覧
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class = "row">
-      <div class = "col-12">
-        <table class = "table table-bordered">
-          <thead>
-            <tr>
-              <th>年月日</th>
-              <th>合計通数</th>
-              <th>合計金額</th>
-              <th>支払予算</th>
-              <th>状態</th>
-              <th>詳細</th>
-              <th>削除</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @send_letters.each do |send_letter| %>
-              <tr>
-                <td><%= send_letter.created_at.strftime('%Y/%m/%d') %></td>
-                <td></td>
-                <td></td>
-                <td><%= send_letter.payment_budget.budget.name %></td>
-                <td>
-                  <% if send_letter.status = "false" %>
-                    未確定
-                  <% else %>
-                    確定
-                  <% end %>
-                </td>
-                <td><%= link_to "詳細を表示する", "/send_letters/#{send_letter.id}" %></td>
-                <td>
-                  <% if send_letter.status = "false"%><!--作成日が当日のものの条件を追加すること！-->
-                    <%= link_to "削除", "/send_letters/#{send_letter.id}", method: :delete, class: "btn btn-danger" %>
-                  <% else %>
-                    削除不可(削除する場合は管理者に連絡してください。)
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div class="container">
+  <br><h3 class="text-center">差出郵便履歴</h3><br>
+    <table class = "table table-bordered table-sm col-8 offset-2">
+      <thead>
+        <tr>
+          <th class="text-center border-dark">年月日</th>
+          <th class="text-center border-dark">支払予算</th>
+          <th class="text-center border-dark">合計通数</th>
+          <th class="text-center border-dark">合計金額</th>
+          <th class="text-center border-dark">詳細</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @send_letters.each do |send_letter| %>
+          <tr>
+            <td class="text-center border-dark" style="vertical-align: middle"><%= send_letter.created_at.strftime('%Y/%m/%d') %></td>
+            <td class="text-center border-dark" style="vertical-align: middle"><%= send_letter.payment_budget.budget.name %></td>
+            <td class="text-right border-dark" style="vertical-align: middle"><%= LetterDetail.eager_load(:send_letter).where(send_letter: {id: send_letter.id}).sum(:number) %></td>
+            <td class="text-right border-dark" style="vertical-align: middle">
+              <% if send_letter.status == true %>
+                <%= send_letter.total_price.to_s(:delimited) %>
+              <% else %>
+                <!--状態未確定時は空白-->
+              <% end %>
+            </td>
+            <td class="text-center border-dark" style="vertical-align: middle"><%= link_to "詳細", "/send_letters/#{send_letter.id}", class: "btn btn-primary btn-sm form-control" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </main>

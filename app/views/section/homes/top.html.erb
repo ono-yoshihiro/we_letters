@@ -1,64 +1,67 @@
 <main>
-  <div class = "container-fluid">
-    <div class = "row">
-      <div class = "col-3 offset-1"><!--menuの表示域-->
-        <div class = "row">
-          <table class = "table table-borderless table-hover">
-            <tr>
-              <th>MENU</th>
-            </tr>
-            <% if admin_signed_in? %>
-              <tr>
-                <td><%= link_to "本日の差出郵便の確認・確定", admin_send_letters_path %></td>
-              </tr>
-              <tr>
-                <% if PostOffice.exists? %>
-                  <td><%= link_to "差出郵便局の編集", edit_admin_post_office_path(1) %></td>
+  <div class = "container">
+    <br><div class = "row">
+      <div class = "col-4">
+        <% if section_signed_in? %>
+          <div class = "row">
+            <div class="col-12 order-md-2 mb-4">
+              <h3 class="d-flex justify-content-between align-items-center mb-3">
+                <span>本日の登録郵便</span>
+                <% if @send_letters.find_by(status: true).present? %>
+                  <span class="badge badge-success badge-pill">確定</span>
                 <% else %>
-                  <td><%= link_to "差出郵便局の登録", new_admin_post_office_path %></td>
+                  <span class="badge badge-danger badge-pill">未確定</span>
                 <% end %>
-              </tr>
-              <tr>
-                <td><%= link_to "差出郵便の履歴確認", admin_send_letters_all_path %></td>
-              </tr>
-            <% elsif section_signed_in? %>
-              <tr>
-                <td><%= link_to "差出郵便の登録", letters_path %></td>
-              </tr>
-              <tr>
-                <td><%= link_to "予算の登録", budgets_path %></td>
-              </tr>
-              <tr>
-                <td><%= link_to "差出郵便の履歴確認", send_letters_path %></td>
-              </tr>
+              </h3>
+            </div>
+          </div>
+          <div class = "row">
+            <% if @send_letters.present? %>
+              <table class = "table table-bordered border-dark table-sm small">
+                <thead>
+                  <tr>
+                    <th class = "text-center border-dark" style = "vertical-align: middle">支払予算</th>
+                    <th class = "text-center border-dark" style = "vertical-align: middle">通数</th>
+                    <th class = "text-center border-dark" style = "vertical-align: middle">金額</th>
+                    <th class = "text-center border-dark">詳細</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @send_letters.each do |send_letter| %>
+                    <tr>
+                      <td class = "text-center border-dark" style = "vertical-align: middle">
+                        <%= send_letter.payment_budget.budget.name %>
+                      </td>
+                      <td class = "text-right border-dark" style = "vertical-align: middle">
+                        <%= LetterDetail.eager_load(:send_letter).where(send_letter: {id: send_letter.id}).sum(:number) %>
+                      </td>
+                      <td class = "text-right border-dark" style = "vertical-align: middle">
+                        <% if send_letter.status == true %>
+                          <%= send_letter.total_price.to_s(:delimited) %>
+                        <% else %>
+                          <!--状態未確定時は空白-->
+                        <% end %>
+                      </td>
+                      <td class = "border-dark">
+                        <%= link_to "詳細", "send_letters/#{send_letter.id}", class: "btn btn-primary btn-sm d-flex align-items-center justify-content-center" %>
+                      </td>
+                    </tr>
+                  </tbody>
+                <% end %>
+              </table>
             <% else %>
-              <tr>
-                <td>ログインしてください。</td>
-              </tr>
+              <p class = "text-danger">本日の郵便は未登録です。</p>
             <% end %>
+          <% elsif admin_signed_in? %>
 
-          </table>
+
+
+
+          <% else %>
+            ログインしてください。
+          <% end %>
         </div>
       </div>
-
-      <div class = "col-7 offset-1"><!--掲示板の表示域-->
-        掲示板
-      </div>
-
     </div>
-
-<!--      <div class = "col-5">
-        < %= link_to "ログイン", new_section_session_path %>
-      </div>
-
-      <div class = "col-2">
-      </div>
-
-      <div class = "col-5">
-        < %= link_to "管理者ログイン", new_admin_session_path %>
-      </div>
-
-    </div>-->
-
   </div>
 </main>

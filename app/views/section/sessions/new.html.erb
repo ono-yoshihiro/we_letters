@@ -1,37 +1,22 @@
 <main>
-  <div class = "containar">
-    <div class = "row">
-      <div class = "col-2 h5" style = "margin-top: 25px">
-        部署ログイン
-      </div>
-    </div>
+  <div class="text-center form-signin">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class = "row form-group" style = "margin-top: 25px">
-        <div class = "col-1">
-          <label for = "email" style = "padding-left: 1em">メールアドレス</label>
-        </div>
-        <div class = "col-2">
+      <br><h3>ログインする</h3><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
         </div>
       </div>
-      <div class = "row" style = "margin-top: 25px">
-        <div class = "col-1">
-          <label for = "password" style = "padding-left: 1em">パスワード</label>
-        </div>
-        <div class = "col-2">
+      <div class="row justify-content-center">
+        <div class="col-2">
           <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
         </div>
-      </div>
-      <div class = "row" style = "margin-top: 25px">
-        <div class = "col-3">
-          <%= f.submit "ログイン", class: "btn btn-primary"%>
+      </div><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.submit "ログイン", class: "btn btn-primary form-control"%>
         </div>
       </div>
     <% end %>
-    <div class = "row">
-      <div class = "col-1">
-        <%= render "section/shared/links" %>
-      </div>
-    </div>
   </div>
 </main>

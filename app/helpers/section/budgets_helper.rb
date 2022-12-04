@@ -1,2 +1,0 @@
-module Section::BudgetsHelper
-end

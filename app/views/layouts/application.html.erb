@@ -9,27 +9,91 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
-    <header class = "shadow-sm h1 container-fluid">
-      <div class = "row" style = "margin-bottom: 60px">
-        <div class = "col-2">
-          <a class = "navbar-brand p-3" href="/"><%= image_tag('logo.png') %></a>
+    <header>
+      <div class="collapse" id="navbarHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 col-md-7 py-4">
+              <h4>Explanation</h4>
+              <% if current_page?(controller: 'section/homes', action: 'top') %>
+                <% if section_signed_in? %>
+                  <p>トップページです。<br>本日の差出郵便を表示します。<br>差出郵便を削除する場合(状態が未確定の場合のみ可能)は、詳細画面から行ってください。</p>
+                <% else %>
+                  <p>トップページです。</p>
+                <% end %>
+              <% elsif current_page?(controller: 'admin/sessions', action: 'new')%>
+                <p>管理者ログイン画面です。<br>管理者でない場合は通常のログインメニューからログインしてください。</p>
+              <% elsif current_page?(controller: 'admin/send_letters', action: 'index')%>
+                <p>本日の差出郵便一覧です。<br>全ての部署の登録完了を確認したら、確定してください。</p>
+              <% elsif current_page?(controller: 'admin/budgets', action: 'index')%>
+                <p>予算登録画面です。<br>部署が支払予算として登録できる予算を作成、削除できます。<br>予算の完全削除は、一度でも支払予算として使用された後にはできません。</p>
+              <% elsif current_page?(controller: 'admin/budgets', action: 'edit')%>
+                <p>予算編集画面です。<br>部署が支払予算として登録できる予算の名称を変更できます。</p>
+              <% elsif current_page?(controller: 'admin/sections', action: 'index')%>
+                <p>部署一覧画面です。<br>部署の使用を停止又は再開することができます。</p>
+              <% elsif current_page?(controller: 'admin/post_offices', action: 'new')%>
+                <p>集配郵便局等情報登録画面です。<br>集配郵便局名、集配郵便局の配達区域となる郵便番号、後納郵便等差出票に印字する差出人名、お客様番号を登録してください。</p>
+              <% elsif current_page?(controller: 'admin/post_offices', action: 'edit')%>
+                <p>集配郵便局等情報編集画面です。<br>集配郵便局名、集配郵便局の配達区域となる郵便番号、後納郵便等差出票に印字する差出人名、お客様番号を更新できます。</p>
+              <% elsif current_page?(controller: 'section/sessions', action: 'new')%>
+                <p>利用を開始するにはログインしてください。<br>初めて利用するときは新規登録してください。</p>
+              <% elsif current_page?(controller: 'section/registrations', action: 'new')%>
+                <p>新規登録画面です。<br>利用したことがある場合はログインしてください。</p>
+              <% elsif current_page?(controller: 'section/payment_budgets', action: 'index')%>
+                <p>支払予算の登録画面です。<br>予算の新規登録が必要な場合は管理者に依頼してください。</p>
+              <% elsif current_page?(controller: 'section/letters', action: 'index')%>
+                <p>差出郵便の登録画面です。<br>登録は支払予算ごとに行ってください。</p>
+              <% elsif current_page?(controller: 'section/send_letters', action: 'new')%>
+                <p>差出郵便の確定画面です。<br>支払予算を選択して確定してください。</p>
+              <% elsif current_page?(controller: 'section/send_letters', action: 'index')%>
+                <p>差出郵便の履歴画面です。</p>
+              <% elsif current_page?(controller: 'section/send_letters', action: 'show')%>
+                <p>差出郵便の詳細画面です。<br>ステータスが未確定のときは削除することができます。<br>削除した場合は、登録済かつ未確定の差出郵便が削除され、削除した差出郵便で上書きされます。</p>
+              <% else %>
+                <p>作成中です。</p>
+              <% end %>
+            </div>
+            <div class="col-sm-4 offset-md-1 py-4">
+              <% if admin_signed_in? %>
+                <h4>Menu</h4>
+                <ul class="list-unstyled">
+                  <li><%= link_to "部署の一覧(使用停止･再開)", admin_sections_path %></li>
+                  <% if PostOffice.present? %>
+                    <li><%= link_to "集配郵便局等情報編集", edit_admin_post_office_path(1) %></li>
+                  <% else %>
+                    <li><%= link_to "集配郵便局等情報登録", new_admin_post_office_path %></li>
+                  <% end %>
+                  <li><%= link_to "予算の登録・削除", admin_budgets_path %></li>
+                  <li class="text-body"><%= link_to "ログアウト", destroy_admin_session_path, method: :delete %></li>
+                </ul>
+              <% elsif section_signed_in? %>
+                <h4>Menu</h4>
+                <ul class="list-unstyled">
+                  <li><%= link_to "差出郵便の登録", letters_path %></li>
+                  <li><%= link_to "過去の差出郵便履歴", send_letters_path %></li>
+                  <li><%= link_to "支払予算の登録", payment_budgets_path %></li>
+                  <li><%= link_to "ログアウト", destroy_section_session_path, method: :delete %></li>
+                </ul>
+              <% else %>
+                <h4>Start</h4>
+                <ul class="list-unstyled">
+                  <li><%= link_to "ログイン", new_section_session_path %></li>
+                  <li><%= link_to "新規登録", new_section_registration_path %></li>
+                  <li><%= link_to "管理者としてログイン", new_admin_session_path %></li>
+                </ul>
+              <% end %>
+            </div>
+          </div>
         </div>
-          <% if admin_signed_in? %>
-            <div class = "col-2 offset-8">
-              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-light text-nowrap", :style => "width:120px" %>
-            </div>
-          <% elsif section_signed_in? %>
-            <div class = "col-2 offset-8">
-              <%= link_to "ログアウト", destroy_section_session_path, method: :delete, class: "btn btn-light text-nowrap", :style => "width:120px" %>
-            </div>
-          <% else %>
-            <div class = "col-2 offset-5">
-              <%= link_to "管理者ログイン", new_admin_session_path, class: "btn btn-light text-nowrap" %>
-            </div>
-            <div class = "col-2 offset-1">
-              <%= link_to "部署ログイン", new_section_session_path, class: "btn btn-light text-nowrap" %>
-            </div>
-          <% end %>
+      </div>
+      <div class="navbar navbar-dark bg-danger shadow-sm">
+        <div class="container d-flex justify-content-between">
+          <a href="/" class="navbar-brand d-flex align-items-center">
+            <strong>WeLetters</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
         </div>
       </div>
     </header>

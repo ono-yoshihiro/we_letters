@@ -10,10 +10,14 @@ resources :report_pdfs, only: [:index]
   }
 
   namespace :admin do
+    get 'sections' => 'sections#index'
+    patch 'sections/:id' => 'sections#logical_delete'
     get 'send_letters_all' => 'send_letters#index_all'
     patch 'send_letters/update_all' => 'send_letters#update_all'
+    patch 'budget/:id' => 'budgets#logical_delete'
     resources :post_offices, only: [:new, :create, :edit, :update]
     resources :send_letters, only: [:index]
+    resources :budgets, only: [:index, :create, :edit, :update, :destroy]
   end
 
 
@@ -24,16 +28,11 @@ resources :report_pdfs, only: [:index]
   }
 
   scope module: :section do
-    get 'sections/mypage' => 'sections#show'
-    get 'sections/information' => 'sections#edit'
-    patch 'sections/information' => 'sections#update'
-    get 'budgets' => 'budgets#index'
-    post 'budgets' => 'budgets#create'
-    get 'budgets/:id/edit' => 'budgets#edit', as: 'edit_section_budget'
-    patch 'budgets/:id' => 'budgets#update'
-    patch 'budget/:id' => 'budgets#logical_delete'
-    post 'payment_budgets' => 'payment_budgets#create'
-    patch 'payment_budget/:id' => 'payment_budgets#logical_delete'
+    get 'section' => 'sections#show'
+    get 'section/information' => 'sections#edit'
+    patch 'section/information' => 'sections#update'
+    get 'payment_budgets' => 'payment_budgets#index'
+    patch 'payment_budgets/:id' => 'payment_budgets#register'
     get 'letters' => 'letters#index'
     post 'letters' => 'letters#create'
     patch 'letters/:id' => 'letters#update'
@@ -41,11 +40,10 @@ resources :report_pdfs, only: [:index]
     delete 'letters/:id' => 'letters#destroy'
     get 'send_letters/new' => 'send_letters#new'
     post 'send_letters' => 'send_letters#create'
-    get 'send_letters' => 'send_letters#index'
     get 'send_letters/:id' => 'send_letters#show'
+    get 'send_letters' => 'send_letters#index'
     delete 'send_letters/:id' => 'send_letters#destroy'
     get 'hoge' => 'homes#hoge'
-
   end
 
 

@@ -1,46 +1,30 @@
 <main>
-  <div class = "container">
-    <div class = "row">
-      <div class = "col-2">
-        部署情報編集ページ
-      </div>
-    </div>
-    <%= form_with model: @section, url: sections_information_path, method: :patch do |f| %>
-      <div class = "row">
-        <div class = "col-2">
-          <label for = "name">部署名</label>
-        </div>
-        <div class = "col-2">
-          <%= f.text_field :name, class: "form-control" %>
+  <div class="text-center form-signin">
+    <%= form_with model: @section, url: section_information_path, method: :patch do |f| %>
+      <br><h3>部署情報を編集する</h3><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :name, placeholder: "部署名", autofocus: true, autocomplete: "name", class: "form-control" %>
         </div>
       </div>
-      <div class = "row">
-        <div class = "col-2">
-          <label for = "pic_name">担当者名</label>
-        </div>
-        <div class = "col-2">
-          <%= f.text_field :pic_name, class: "form-control" %>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :pic_name, placeholder: "担当者名", autocomplete: "pic_name", class: "form-control" %>
         </div>
       </div>
-      <div class = "row">
-        <div class = "col-2">
-          <label for = "telephone_number">電話番号</label>
-        </div>
-        <div class = "col-2">
-          <%= f.text_field :telephone_number, class: "form-control" %>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :telephone_number, placeholder: "電話番号", autocomplete: "telephone_number", class: "form-control" %>
         </div>
       </div>
-      <div class = "row">
-        <div class = "col-2">
-          <label for = "email">メールアドレス</label>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.email_field :email, placeholder: "メールアドレス", autocomplete: "email", class: "form-control" %>
         </div>
-        <div class = "col-2">
-          <%= f.email_field :email, class: "form-control" %>
-        </div>
-      </div>
-      <div class = "row">
-        <div class = "col-4">
-          <%= f.submit "変更を登録する", class: "btn btn-success" %>
+      </div><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.submit "更新", class: "btn btn-primary form-control"%>
         </div>
       </div>
     <% end %>

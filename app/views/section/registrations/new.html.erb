@@ -1,63 +1,43 @@
 <main>
-  <div class = "containar">
-    <div class = "row">
-      <div class = "col-2 h5" style = "margin-top: 25px">
-        部署新規登録
-      </div>
-    </div>
+  <div class="text-center form-signin">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "section/shared/error_messages", resource: resource %>
-      <div class = "row form-group" style = "margin-top: 25px">
-        <div class = "col-1">
-          <label for = "name" style = "padding-left: 1em">部署名</label>
-        </div>
-        <div class = "col-2">
-          <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control" %>
+      <br><h3>新規登録</h3><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :name, placeholder: "部署名", autofocus: true, autocomplete: "name", class: "form-control" %>
         </div>
       </div>
-      <div class = "row form-group" style = "margin-top: 25px">
-        <div class = "col-1">
-          <label for = "pic_name" style = "padding-left: 1em">担当者名</label>
-        </div>
-        <div class = "col-2">
-          <%= f.text_field :pic_name, autocomplete: "pic_name", class: "form-control" %>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :pic_name, placeholder: "担当者名", autocomplete: "pic_name", class: "form-control" %>
         </div>
       </div>
-      <div class = "row form-group" style = "margin-top: 25px">
-        <div class = "col-1">
-          <label for = "telephone_number" style = "padding-left: 1em">電話番号</label>
-        </div>
-        <div class = "col-2">
-          <%= f.text_field :telephone_number, autocomplete: "telephone_number", class: "form-control" %>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.text_field :telephone_number, placeholder: "電話番号", autocomplete: "telephone_number", class: "form-control" %>
         </div>
       </div>
-      <div class = "row form-group" style = "margin-top: 25px">
-        <div class = "col-1">
-          <label for = "email" style = "padding-left: 1em">メールアドレス</label>
-        </div>
-        <div class = "col-2">
-          <%= f.email_field :email, autocomplete: "email", class: "form-control" %>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.email_field :email, placeholder: "メールアドレス", autocomplete: "email", class: "form-control" %>
         </div>
       </div>
-      <div class = "row form-group" style = "margin-top: 25px">
-        <div class = "col-1">
-          <label for = "password" style = "padding-left: 1em">パスワード</label>
-        </div>
-        <div class = "col-2">
-          <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
-        </div>
-        <div class = "col-1">
-          <label for = "password_confirmation" style = "padding-left: 1em">確認用</label>
-        </div>
-        <div class = "col-2">
-          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.password_field :password, placeholder: "パスワード", autocomplete: "current-password", class: "form-control" %>
         </div>
       </div>
-      <div class = "row" style = "margin-top: 25px">
-        <div class = "col-3">
-          <%= f.submit "登録する", class: "btn btn-primary"%>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.password_field :password_confirmation, placeholder: "パスワード(確認用)", autocomplete: "new-password", class: "form-control" %>
+        </div>
+      </div><br>
+      <div class="row justify-content-center">
+        <div class="col-2">
+          <%= f.submit "登録", class: "btn btn-primary form-control"%>
         </div>
       </div>
     <% end %>
-
-<%= render "section/shared/links" %>
+  </div>
+</main>
