@@ -23,20 +23,16 @@
                 <% end %>
               <% elsif current_page?(controller: 'admin/sessions', action: 'new')%>
                 <p>管理者ログイン画面です。<br>管理者でない場合は通常のログインメニューからログインしてください。</p>
-              <% elsif current_page?(controller: 'admin/send_letters', action: 'index')%>
-                <p>本日の差出郵便一覧です。<br>全ての部署の登録完了を確認したら、確定してください。</p>
-              <% elsif current_page?(controller: 'admin/budgets', action: 'index')%>
-                <p>予算登録画面です。<br>部署が支払予算として登録できる予算を作成、削除できます。<br>予算の完全削除は、一度でも支払予算として使用された後にはできません。</p>
-              <% elsif current_page?(controller: 'admin/budgets', action: 'edit')%>
-                <p>予算編集画面です。<br>部署が支払予算として登録できる予算の名称を変更できます。</p>
+              <% elsif current_page?(controller: 'section/sessions', action: 'new')%>
+                <p>利用を開始するにはログインしてください。<br>初めて利用するときは新規登録してください。</p>
               <% elsif current_page?(controller: 'admin/sections', action: 'index')%>
                 <p>部署一覧画面です。<br>部署の使用を停止又は再開することができます。</p>
               <% elsif current_page?(controller: 'admin/post_offices', action: 'new')%>
                 <p>集配郵便局等情報登録画面です。<br>集配郵便局名、集配郵便局の配達区域となる郵便番号、後納郵便等差出票に印字する差出人名、お客様番号を登録してください。</p>
-              <% elsif current_page?(controller: 'admin/post_offices', action: 'edit')%>
-                <p>集配郵便局等情報編集画面です。<br>集配郵便局名、集配郵便局の配達区域となる郵便番号、後納郵便等差出票に印字する差出人名、お客様番号を更新できます。</p>
-              <% elsif current_page?(controller: 'section/sessions', action: 'new')%>
-                <p>利用を開始するにはログインしてください。<br>初めて利用するときは新規登録してください。</p>
+              <% elsif current_page?(controller: 'admin/send_letters', action: 'index')%>
+                <p>本日の差出郵便一覧です。<br>全ての部署の登録完了を確認したら、確定してください。</p>
+              <% elsif current_page?(controller: 'admin/budgets', action: 'index')%>
+                <p>予算登録画面です。<br>部署が支払予算として登録できる予算を作成、削除できます。<br>予算の完全削除は、一度でも支払予算として使用された後にはできません。</p>
               <% elsif current_page?(controller: 'section/registrations', action: 'new')%>
                 <p>新規登録画面です。<br>利用したことがある場合はログインしてください。</p>
               <% elsif current_page?(controller: 'section/payment_budgets', action: 'index')%>
@@ -47,8 +43,14 @@
                 <p>差出郵便の確定画面です。<br>支払予算を選択して確定してください。</p>
               <% elsif current_page?(controller: 'section/send_letters', action: 'index')%>
                 <p>差出郵便の履歴画面です。</p>
+              <% elsif current_page?(controller: 'admin/send_letters', action: 'monthly_report')%>
+                <p>月集計画面です。<br>部署、支払予算ごとの差出郵便の合計を表示しています。</p>
               <% elsif current_page?(controller: 'section/send_letters', action: 'show')%>
                 <p>差出郵便の詳細画面です。<br>ステータスが未確定のときは削除することができます。<br>削除した場合は、登録済かつ未確定の差出郵便が削除され、削除した差出郵便で上書きされます。</p>
+              <% elsif current_page?(controller: 'admin/budgets', action: 'edit')%>
+                <p>予算編集画面です。<br>部署が支払予算として登録できる予算の名称を変更できます。</p>
+              <% elsif current_page?(controller: 'admin/post_offices', action: 'edit')%>
+                <p>集配郵便局等情報編集画面です。<br>集配郵便局名、集配郵便局の配達区域となる郵便番号、後納郵便等差出票に印字する差出人名、お客様番号を更新できます。</p>
               <% else %>
                 <p>作成中です。</p>
               <% end %>
@@ -57,6 +59,7 @@
               <% if admin_signed_in? %>
                 <h4>Menu</h4>
                 <ul class="list-unstyled">
+                  <li><%= link_to "月集計表示", admin_monthly_report_path %></li>
                   <li><%= link_to "部署の一覧(使用停止･再開)", admin_sections_path %></li>
                   <% if PostOffice.present? %>
                     <li><%= link_to "集配郵便局等情報編集", edit_admin_post_office_path(1) %></li>

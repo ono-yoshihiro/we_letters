@@ -1,0 +1,36 @@
+<!--管理者　月集計画面-->
+<main class="container">
+  <br><h3 class="text-center">月集計(<%= @month.strftime('%y') %>年<%= @month.strftime('%m') %>月)</h3><br>
+  <table class="table table-bordered table-sm small">
+    <thead>
+      <tr>
+        <th class="text-center border-dark">部署</th>
+        <th class="text-center border-dark">予算</th>
+        <th class="text-center border-dark">月計金額</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @payment_budgets.each do |payment_budget| %>
+        <tr>
+          <td class="text-center border-dark">
+            <%= payment_budget.section.name %>
+          </td>
+          <td class="text-center border-dark">
+            <%= payment_budget.budget.name %>
+          </td>
+          <% array = [] %>
+          <% payment_budget.send_letters.where(created_at: @month.all_month).each do |send_letter| %>
+            <% array << send_letter.total_price %>
+          <% end %>
+          <td class="text-right border-dark">
+            <%= array.sum.to_s(:delimited) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="text-center">
+    <span><%= link_to "<<前の月",admin_monthly_report_path(month:@month.prev_month) %>　　<%= link_to "次の月>>",admin_monthly_report_path(month:@month.next_month) %></span>
+  </div>
+
+</main>

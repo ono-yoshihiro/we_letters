@@ -1,7 +1,8 @@
 class Admin::SendLettersController < ApplicationController
 
   def index
-    @send_letters = SendLetter.where("created_at >= ?", Date.today)
+    @month = params[:month] ? Date.parse(params[:month]) : Time.zone.today
+    @send_letters = SendLetter.where(created_at: @month.all_month).order(:payment_budget_id)
   end
 
   def update_all
@@ -82,7 +83,7 @@ class Admin::SendLettersController < ApplicationController
             end
           end
         end
-        redirect_to admin_send_letters_path
+        redirect_to "/"
       else
         send_letters.update_all(status: false)
         #適用価格を削除するが、type_idを統合したものは元のidには戻らない
@@ -91,12 +92,13 @@ class Admin::SendLettersController < ApplicationController
             letter_detail.update(applicable_price: nil)
           end
         end
-        redirect_to admin_send_letters_path
+        redirect_to "/"
       end
   end
 
-  def index_all
-    @send_letters = SendLetter.all
+  def monthly_report
+    @month = params[:month] ? Date.parse(params[:month]) : Time.zone.today
+    @payment_budgets = PaymentBudget.where(registration: true).order(:section_id)
   end
 
   private
