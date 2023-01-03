@@ -1,46 +1,53 @@
 <!--部署　支払予算登録画面-->
 <main>
-  <div class="container text-center">
-    <br><h3>支払予算登録</h3><br>
-    <div class="row justify-content-center">
-      <div class="col-6">
-        <h5 class="text-success">登録済予算</h5>
-        <table class="table table-bordered table-sm">
-          <thead class="align=items-center">
-            <tr>
-              <th class="border-dark">予算名</th>
-              <th class="border-dark">登録を解除する</th>
-            </tr>
-          </thead>
-          <tbody>
-          <% @payment_budgets.each do |payment_budget| %>
+  <% if current_section.status == true %>
+    <br><div class="container border border-danger text-danger small">
+      <p class="border-bottom border-danger">利用停止中</p>
+        ・利用を再開するには管理者に連絡してください。<br>
+    </div>
+  <% else %>
+    <div class="container text-center">
+      <br><h3>支払予算登録</h3><br>
+      <div class="row justify-content-center">
+        <div class="col-6">
+          <h5 class="text-success">登録済予算</h5>
+          <table class="table table-bordered table-sm">
+            <thead class="align=items-center">
               <tr>
-                <td class="border-dark" style="vertical-align:middle"><%= Budget.find(payment_budget.budget_id).name %></td>
-                <td class="border-dark" style="vertical-align:middle"><%= link_to "解除", "payment_budgets/#{payment_budget.id}", method: :patch, class: "btn btn-danger btn-sm" %></td>
+                <th class="border-dark">予算名</th>
+                <th class="border-dark">登録を解除する</th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-6">
-        <h5 class="text-danger">未登録予算</h5>
-        <table class="table table-bordered table-sm">
-          <thead>
-            <tr>
-              <th class="border-dark">予算名</th>
-              <th class="border-dark">登録する</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @unregistered_payment_budgets.each do |unregistered_payment_budget| %>
+            </thead>
+            <tbody>
+            <% @payment_budgets.each do |payment_budget| %>
+                <tr>
+                  <td class="border-dark" style="vertical-align:middle"><%= Budget.find(payment_budget.budget_id).name %></td>
+                  <td class="border-dark" style="vertical-align:middle"><%= link_to "解除", "payment_budgets/#{payment_budget.id}", method: :patch, class: "btn btn-danger btn-sm" %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-6">
+          <h5 class="text-danger">未登録予算</h5>
+          <table class="table table-bordered table-sm">
+            <thead>
               <tr>
-                <td class="border-dark" style="vertical-align:middle"><%= Budget.find(unregistered_payment_budget.budget_id).name %></td>
-                <td class="border-dark" style="vertical-align:middle"><%= link_to "登録", "payment_budgets/#{unregistered_payment_budget.id}", method: :patch, class: "btn btn-success btn-sm" %></td>
+                <th class="border-dark">予算名</th>
+                <th class="border-dark">登録する</th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <% @unregistered_payment_budgets.each do |unregistered_payment_budget| %>
+                <tr>
+                  <td class="border-dark" style="vertical-align:middle"><%= Budget.find(unregistered_payment_budget.budget_id).name %></td>
+                  <td class="border-dark" style="vertical-align:middle"><%= link_to "登録", "payment_budgets/#{unregistered_payment_budget.id}", method: :patch, class: "btn btn-success btn-sm" %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </main>

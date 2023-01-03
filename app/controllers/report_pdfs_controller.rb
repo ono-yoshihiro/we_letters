@@ -1,4 +1,5 @@
 class ReportPdfsController < ApplicationController
+
   def index
 #    letter_detail_same_type_ids = LetterDetail.select(:type_id).distinct
 

@@ -1,19 +1,18 @@
 class Admin::PostOfficesController < ApplicationController
 
+  before_action :authenticate_admin!
+  before_action :registered_post_office, if: -> { PostOffice.find(1).present? }, only: [:new]
+
   def new
     @post_office = PostOffice.new
   end
 
   def create
-    if PostOffice.present?
-      render :edit
+    @post_office = PostOffice.new(post_office_params)
+    if @post_office.save
+      redirect_to edit_admin_post_office_path(@post_office.id)
     else
-      @post_office = PostOffice.new(post_office_params)
-      if @post_office.save
-        redirect_to edit_admin_post_office_path(@post_office.id)
-      else
-        render :new
-      end
+      render :new
     end
   end
 
@@ -33,6 +32,10 @@ class Admin::PostOfficesController < ApplicationController
   private
   def post_office_params
     params.require(:post_office).permit(:post_office_name, :postal_code, :sender_name, :customer_number)
+  end
+
+  def registered_post_office
+    redirect_to edit_admin_post_office_path(1)
   end
 
 end

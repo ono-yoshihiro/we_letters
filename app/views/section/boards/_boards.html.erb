@@ -1,0 +1,31 @@
+<!--連絡事項-->
+<div class="text-center h3">
+  連絡事項
+</div><br>
+<% if boards.present? %>
+  <table class="table table-borderless table-hover">
+    <% boards.each do |board| %>
+      <tr class="cell-link">
+        <td style="width: 80%">
+          <% if board.section_id.nil? %>
+            <%= board.created_at.strftime('%Y/%m/%d') %>　管理者<br>
+          <% else %>
+            <%= board.created_at.strftime('%Y/%m/%d') %>　<%= board.section.name %><br>
+          <% end %>
+          <strong>　<%= board.title %></strong>
+        </td>
+        <td>
+          <%= link_to "表示", board_path(board), class: "btn btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  連絡事項はありません。
+<% end %><br><br>
+<div class="text-center">
+  <%= link_to "投稿する", new_board_path, class: "btn btn-success" %>
+</div><br><br>
+<div class="d-flex align-items-center justify-content-center">
+  <%= paginate boards, theme: 'bootstrap-5' %>
+</div>

@@ -34,7 +34,7 @@
               <% elsif current_page?(controller: 'admin/budgets', action: 'index')%>
                 <p>予算登録画面です。<br>部署が支払予算として登録できる予算を作成、削除できます。<br>予算の完全削除は、一度でも支払予算として使用された後にはできません。</p>
               <% elsif current_page?(controller: 'section/registrations', action: 'new')%>
-                <p>新規登録画面です。<br>利用したことがある場合はログインしてください。</p>
+                <p>新規登録画面です。利用したことがある場合はログインしてください。<br>登録後はステータスが利用停止中になっているため、管理者に連絡してステータスを利用中に変更してください。</p>
               <% elsif current_page?(controller: 'section/payment_budgets', action: 'index')%>
                 <p>支払予算の登録画面です。<br>予算の新規登録が必要な場合は管理者に依頼してください。</p>
               <% elsif current_page?(controller: 'section/letters', action: 'index')%>
@@ -45,6 +45,12 @@
                 <p>差出郵便の履歴画面です。</p>
               <% elsif current_page?(controller: 'admin/send_letters', action: 'monthly_report')%>
                 <p>月集計画面です。<br>部署、支払予算ごとの差出郵便の合計を表示しています。</p>
+              <% elsif current_page?(controller: 'section/boards', action: 'new')%>
+                <p>連絡事項投稿画面です。</p>
+              <% elsif current_page?(controller: 'section/sections', action: 'edit')%>
+                <p>部署情報編集画面です。</p>
+              <% elsif current_page?(controller: 'section/boards', action: 'show')%>
+                <p>連絡事項の内容表示画面です。</p>
               <% elsif current_page?(controller: 'section/send_letters', action: 'show')%>
                 <p>差出郵便の詳細画面です。<br>ステータスが未確定のときは削除することができます。<br>削除した場合は、登録済かつ未確定の差出郵便が削除され、削除した差出郵便で上書きされます。</p>
               <% elsif current_page?(controller: 'admin/budgets', action: 'edit')%>
@@ -75,6 +81,7 @@
                   <li><%= link_to "差出郵便の登録", letters_path %></li>
                   <li><%= link_to "過去の差出郵便履歴", send_letters_path %></li>
                   <li><%= link_to "支払予算の登録", payment_budgets_path %></li>
+                  <li><%= link_to "部署情報の編集", section_information_path %></li>
                   <li><%= link_to "ログアウト", destroy_section_session_path, method: :delete %></li>
                 </ul>
               <% else %>
@@ -99,6 +106,16 @@
           </button>
         </div>
       </div>
+      <% if notice.present? %>
+        <!--deviseによるログイン時、ログアウト時のflashメッセージは表示させない-->
+        <% if notice == "translation missing: ja.devise.sessions.section.signed_in" || notice == "translation missing: ja.devise.sessions.section.signed_out" || notice == "translation missing: ja.devise.sessions.admin.signed_in" || notice == "translation missing: ja.devise.sessions.admin.signed_out" %>
+        <% else %>
+          <br><div class="container border border-danger text-danger small">
+            <p class="border-bottom border-danger">次の理由によりリクエストは受付できませんでした。</p>
+            ・<%= notice %><br>
+          </div>
+        <% end %>
+      <% end %>
     </header>
     <%= yield %>
   </body>

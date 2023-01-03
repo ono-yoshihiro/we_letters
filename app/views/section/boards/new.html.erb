@@ -1,0 +1,26 @@
+<!--連絡事項投稿画面-->
+<main>
+  <%if @board.errors.any? %>
+    <div class="container">
+      <br><div class="container border border-danger text-danger small">
+        <p class="border-bottom border-danger"><%= "#{@board.errors.count}件のエラー" %></p>
+        <% @board.errors.full_messages.each do |message| %>
+          ・<%= message %><br>
+        <% end %>
+    </div>
+  <% end %>
+  <div class="container text-center">
+  <br><h3 class="text-center">連絡事項投稿</h3><br>
+    <%= form_with model: @board do |f| %>
+      <div class="row">
+        <%= f.text_field :title, autofocus: true, placeholder: "タイトル", class: "form-control" %>
+      </div><br>
+      <div class="row">
+        <%= f.text_area :body, placeholder: "本文", class: "form-control", :style => "height: 400px" %>
+      </div><br>
+      <div class="row">
+        <%= f.submit '投稿', class: "form-control btn btn-success" %>
+      </div>
+    <% end %>
+  </div>
+</main>

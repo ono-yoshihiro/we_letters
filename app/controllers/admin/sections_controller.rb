@@ -1,5 +1,7 @@
 class Admin::SectionsController < ApplicationController
 
+  before_action :authenticate_admin!
+
   def index
     @sections = Section.all
   end

@@ -1,22 +1,4 @@
 ja:
-  enums:
-    type:
-      weight:
-        blank_weight: "指定しない"
-        up_to_25g: "25g以内"
-        up_to_50g: "50g以内"
-        up_to_100g: "100g以内"
-        up_to_150g: "150g以内"
-        up_to_250g: "250g以内"
-        up_to_500g: "500g以内"
-        up_to_1kg: "1kg以内"
-        up_to_2kg: "2kg以内"
-        up_to_4kg: "4kg以内"
-      size:
-        blank_size: "指定しない"
-        fixed_form: "定型"
-        standard: "定型外(規格内)"
-        nonstandard: "定型外(規格外)"
   activerecord:
     errors:
       messages:
@@ -24,6 +6,31 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+    attributes:
+      section:
+        name: "部署名"
+        pic_name: "担当者名"
+        telephone_number: "電話番号"
+        email: "メールアドレス"
+        password: "パスワード"
+        encrypted_password: "確認用パスワード"
+      budget:
+        name: "予算名"
+      post_office:
+        post_office_name: "集配郵便局名"
+        postal_code: "集配郵便局の配達郵便区（郵便番号）"
+        sender_name: "差出人氏名（会社等名称）"
+        customer_number: "お客様番号"
+      letter:
+        number: "通数"
+      type:
+        type_name: "種類"
+        size_id: "サイズ"
+        weight_id: "重量"
+        address_id: "宛先"
+      board:
+        title: "タイトル"
+        body: "本文"
   date:
     abbr_day_names:
     - 日

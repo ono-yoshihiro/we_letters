@@ -2,8 +2,8 @@ class Type < ApplicationRecord
   has_many :letters
   has_many :letter_details
   belongs_to :type_name
-  belongs_to :weight
-  belongs_to :size
+  belongs_to :weight, optional: true
+  belongs_to :size, optional: true
   belongs_to :address
   belongs_to :barcode
   belongs_to :delivery_date_option
@@ -16,7 +16,71 @@ class Type < ApplicationRecord
     self.delivery_date_option_price + self.registered_option_price + self.proof_delivery_option_price + self.proof_contents_option_price + self.personal_receipt_option_price
   end
 
-  validates :type_name_id, presence: true
-  validates :price, presence: true
+  #validates :type_name_id, presence: true
+  validates :size_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 2 }
+  validates :weight_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 3 }
+  validates :price, presence: true, unless: -> { validation_context == :letter_create }
+#  validate :invalid_values
 
+#  def invalid_values
+#    exists = Type.exists?(
+#      type_name_id: type_name_id,
+#      weight_id: weight_id,
+#      size_id: size_id,
+#      address_id: address_id,
+#      barcode_id: barcode_id,
+#      delivery_date_option_id: delivery_date_option_id,
+#      registered_option_id: registered_option_id,
+#      proof_delivery_option_id: proof_delivery_option_id,
+#      proof_contents_option_id: proof_contents_option_id,
+#      personal_receipt_option_id: personal_receipt_option_id
+#    )
+#    unless exists
+#      errors.add(:base, "不正な組み合わせです")
+#    end
+#  end
+
+
+  def get_id
+    if type_name_id == 2
+      Type.find_by!(
+        type_name_id: type_name_id,
+        weight_id: 1,
+        size_id: size_id,
+        address_id: address_id,
+        barcode_id: barcode_id,
+        delivery_date_option_id: delivery_date_option_id,
+        registered_option_id: registered_option_id,
+        proof_delivery_option_id: proof_delivery_option_id,
+        proof_contents_option_id: proof_contents_option_id,
+        personal_receipt_option_id: personal_receipt_option_id
+      ).id
+    elsif type_name_id == 3
+      Type.find_by!(
+        type_name_id: type_name_id,
+        weight_id: weight_id,
+        size_id: 1,
+        address_id: address_id,
+        barcode_id: barcode_id,
+        delivery_date_option_id: delivery_date_option_id,
+        registered_option_id: registered_option_id,
+        proof_delivery_option_id: proof_delivery_option_id,
+        proof_contents_option_id: proof_contents_option_id,
+        personal_receipt_option_id: personal_receipt_option_id
+      ).id
+    else
+      Type.find_by!(
+        type_name_id: type_name_id,
+        weight_id: weight_id,
+        size_id: size_id,
+        address_id: address_id,
+        barcode_id: barcode_id,
+        delivery_date_option_id: delivery_date_option_id,
+        registered_option_id: registered_option_id,
+        proof_delivery_option_id: proof_delivery_option_id,
+        proof_contents_option_id: proof_contents_option_id,
+        personal_receipt_option_id: personal_receipt_option_id
+      ).id
+    end
+  end
 end

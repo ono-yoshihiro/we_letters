@@ -1,5 +1,13 @@
 <!--集配郵便局等情報編集-->
 <main>
+  <%if @post_office.errors.any? %>
+    <div class="container border border-danger text-danger small">
+      <p class="border-bottom border-danger"><%= pluralize(@post_office.errors.count, "件のエラー") %></p>
+      <% @post_office.errors.full_messages.each do |message| %>
+        ・<%= message %><br>
+      <% end %>
+    </div>
+  <% end %>
   <div class="text-center form-signin">
     <%= form_with model: @post_office, url: admin_post_office_path(@post_office), method: :patch do |f| %>
       <br><h3>集配郵便局等情報編集</h3><br>

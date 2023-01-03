@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_09_110330) do
+ActiveRecord::Schema.define(version: 2022_12_31_084402) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "address", null: false
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 2022_11_09_110330) do
 
   create_table "barcodes", force: :cascade do |t|
     t.string "barcode", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "boards", force: :cascade do |t|
+    t.integer "section_id"
+    t.string "title", null: false
+    t.string "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -116,7 +124,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_110330) do
     t.string "name", null: false
     t.string "pic_name", null: false
     t.string "telephone_number", null: false
-    t.boolean "status", default: false, null: false
+    t.boolean "status", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_sections_on_email", unique: true

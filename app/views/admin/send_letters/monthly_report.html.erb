@@ -11,26 +11,38 @@
     </thead>
     <tbody>
       <% @payment_budgets.each do |payment_budget| %>
-        <tr>
-          <td class="text-center border-dark">
-            <%= payment_budget.section.name %>
-          </td>
-          <td class="text-center border-dark">
-            <%= payment_budget.budget.name %>
-          </td>
-          <% array = [] %>
-          <% payment_budget.send_letters.where(created_at: @month.all_month).each do |send_letter| %>
-            <% array << send_letter.total_price %>
-          <% end %>
-          <td class="text-right border-dark">
-            <%= array.sum.to_s(:delimited) %>
-          </td>
-        </tr>
+        <% if payment_budget.send_letters.where(created_at: @month.all_month).present? %>
+          <tr>
+            <td class="text-center border-dark">
+              <%= payment_budget.section.name %>
+            </td>
+            <td class="text-center border-dark">
+              <%= payment_budget.budget.name %>
+            </td>
+            <!--支払予算が持つ当該月の差出郵便ごとの合計金額を配列で取得-->
+            <% subtotal = [] %>
+            <% payment_budget.send_letters.where(created_at: @month.all_month).each do |send_letter| %>
+              <% subtotal << send_letter.total_price %>
+            <% end %>
+            <!--取得した合計金額の合計を表示-->
+            <td class="text-right border-dark">
+              <%= subtotal.sum.to_s(:delimited) %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
+      <!--当該月の差出郵便(全て)の合計金額を配列で取得-->
+      <% total = [] %>
+      <% @send_letters.each do |send_letter| %>
+        <% total << send_letter.total_price %>
+      <% end %>
+      <!--取得した合計金額の合計を表示-->
+      <tr>
+        <td colspan="3" class="text-right border-dark"><%= total.sum.to_s(:delimited) %>円</td>
+      </tr>
     </tbody>
   </table>
   <div class="text-center">
     <span><%= link_to "<<前の月",admin_monthly_report_path(month:@month.prev_month) %>　　<%= link_to "次の月>>",admin_monthly_report_path(month:@month.next_month) %></span>
   </div>
-
 </main>

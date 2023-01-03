@@ -1,0 +1,50 @@
+<div class = "row">
+  <div class="col-12 order-md-2 mb-4">
+    <h3 class="d-flex justify-content-between align-items-center mb-3">
+      <span>本日の登録郵便</span>
+      <% if send_letters.find_by(status: true).present? %>
+        <span class="badge badge-success badge-pill">確定</span>
+      <% else %>
+        <span class="badge badge-danger badge-pill">未確定</span>
+      <% end %>
+    </h3>
+  </div>
+</div>
+<div class = "row">
+  <% if send_letters.present? %>
+    <table class = "table table-bordered border-dark table-sm small">
+      <thead>
+        <tr>
+          <th class = "text-center border-dark" style = "vertical-align: middle">支払予算</th>
+          <th class = "text-center border-dark" style = "vertical-align: middle">通数</th>
+          <th class = "text-center border-dark" style = "vertical-align: middle">金額</th>
+          <th class = "text-center border-dark">詳細</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% send_letters.each do |send_letter| %>
+          <tr>
+            <td class = "text-center border-dark" style = "vertical-align: middle">
+              <%= send_letter.payment_budget.budget.name %>
+            </td>
+            <td class = "text-right border-dark" style = "vertical-align: middle">
+              <%= LetterDetail.eager_load(:send_letter).where(send_letter: {id: send_letter.id}).sum(:number) %>
+            </td>
+            <td class = "text-right border-dark" style = "vertical-align: middle">
+              <% if send_letter.status == true %>
+                <%= send_letter.total_price.to_s(:delimited) %>
+              <% else %>
+                <!--状態未確定時は空白-->
+              <% end %>
+            </td>
+            <td class = "border-dark">
+              <%= link_to "詳細", "send_letters/#{send_letter.id}", class: "btn btn-primary btn-sm d-flex align-items-center justify-content-center" %>
+            </td>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+  <% else %>
+    <p class = "text-danger">本日の郵便は未登録です。</p>
+  <% end %>
+</div>

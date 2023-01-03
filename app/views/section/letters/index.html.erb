@@ -1,117 +1,177 @@
 <!--部署　差出郵便登録画面-->
 <main class="container">
-    <br><h3 class="text-center">差出郵便登録</h3><br>
-    <div class="row">
-      <div class="col-5">
+  <%if @type.errors.any? || @letter.errors.any? %>
+    <br><div class="container border border-danger text-danger small">
+      <p class="border-bottom border-danger"><%= "#{@type.errors.count + @letter.errors.count}件のエラー" %></p>
+      <% @type.errors.full_messages.each do |message| %>
+        ・<%= message %><br>
+      <% end %>
+      <% @letter.errors.full_messages.each do |message| %>
+        ・<%= message %><br>
+      <% end %>
+    </div>
+  <% end %>
+  <br><h3 class="text-center">差出郵便登録</h3><br>
+  <div class="row">
+    <div class="col-5">
+      <div class="row">
+        <h5>新規登録</h5>
+      </div>
+      <div class="row border border-dark small col-12">
+      <%= form_with model: @type, url: letters_path, local: true, method: :post do |f| %>
+        <%= f.hidden_field :address_id, value: 1 %>
+        <%= f.hidden_field :barcode_id, value: 1 %>
+        <%= f.hidden_field :delivery_date_option_id, value: 1 %>
+        <%= f.hidden_field :registered_option_id, value: 1 %>
+        <%= f.hidden_field :proof_delivery_option_id, value: 1 %>
+        <%= f.hidden_field :proof_contents_option_id, value: 1 %>
+        <%= f.hidden_field :proof_delivery_option_id, value: 1 %>
+        <%= f.hidden_field :personal_receipt_option_id, value: 1 %>
+        <!--種類の選択(デフォルトで表示)-->
         <div class="row">
-          <h5>新規登録</h5>
-        </div>
-        <div class="row border border-dark small col-12">
-        <%= form_with model: @letter, url: letters_path, local: false, method: :post do |f| %>
-        <!--デフォルトで表示・・・選択によって重量選択を表示する-->
-          <div class="row">
-            <div class="col-3 text-center">
-              種類
-            </div>
-            <div class="col-9">
-              <label><%= f.radio_button(:type_name_id, 1, onclick: "weightForm(), sizeForm(), proofContentsOptionForm()") %><%= TypeName.find(1).type_name %></label>
-              <label><%= f.radio_button(:type_name_id, 2, onclick: "weightForm(), sizeForm(), proofContentsOptionForm()") %><%= TypeName.find(2).type_name %></label>
-              <label><%= f.radio_button(:type_name_id, 3, onclick: "weightForm(), sizeForm(), proofContentsOptionForm()") %><%= TypeName.find(3).type_name %></label>
-            </div>
-          </div><hr>
-          <!--種類に手紙が選ばれたときに表示・・・選択によってサイズ選択を表示する-->
-          <span id="weight_form_letter" style="display: none">
-            <div class="row">
-              <div class="col-3 text-center">
-                重量
-              </div>
-              <div class="col-9">
-                <label><%= f.radio_button(:weight_id, 2, onclick: "sizeForm(), addressForm()") %><%= Weight.find(2).weight %></label>
-                <label><%= f.radio_button(:weight_id, 3, onclick: "sizeForm(), addressForm()") %><%= Weight.find(3).weight %></label>
-                <label><%= f.radio_button(:weight_id, 4, onclick: "sizeForm(), addressForm()") %><%= Weight.find(4).weight %></label>
-                <label><%= f.radio_button(:weight_id, 5, onclick: "sizeForm(), addressForm()") %><%= Weight.find(5).weight %></label>
-                <label><%= f.radio_button(:weight_id, 6, onclick: "sizeForm(), addressForm()") %><%= Weight.find(6).weight %></label>
-                <label><%= f.radio_button(:weight_id, 7, onclick: "sizeForm(), addressForm()") %><%= Weight.find(7).weight %></label>
-                <label><%= f.radio_button(:weight_id, 8, onclick: "sizeForm(), addressForm()") %><%= Weight.find(8).weight %></label>
-                <label><%= f.radio_button(:weight_id, 9, onclick: "sizeForm(), addressForm()") %><%= Weight.find(9).weight %></label>
-                <label><%= f.radio_button(:weight_id, 10, onclick: "sizeForm(), addressForm()") %><%= Weight.find(10).weight %></label>
-              </div>
-            </div><hr>
-          </span>
-          <!--種類にゆうメールが選ばれたときに表示-->
-          <span id="weight_form_yumail" style="display: none">
-            <div class="row">
-              <div class="col-3 text-center">
-                重量
-              </div>
-              <div class ="col-9">
-                <label><%= f.radio_button(:weight_id, 5) %><%= Weight.find(5).weight %></label>
-                <label><%= f.radio_button(:weight_id, 6) %><%= Weight.find(6).weight %></label>
-                <label><%= f.radio_button(:weight_id, 7) %><%= Weight.find(7).weight %></label>
-                <label><%= f.radio_button(:weight_id, 8) %><%= Weight.find(8).weight %></label>
-              </div>
-            </div><hr>
-          </span>
-          <!--重量に25g以内又は50g以内が選ばれたときに表示-->
-          <span id="size_form_50g" style="display: none">
+          <div class="col-3 text-center">
+            種類
+          </div>
+          <div class="col-9">
+            <label><%= f.radio_button(:type_name_id, 1, onclick: "sizeForm(), weightForm(), addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= TypeName.find(1).type_name %></label><!--chkT[0]-->
+            <label><%= f.radio_button(:type_name_id, 2, onclick: "sizeForm(), weightForm(), addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= TypeName.find(2).type_name %></label><!--chkT[1]-->
+            <label><%= f.radio_button(:type_name_id, 3, onclick: "sizeForm(), weightForm(), addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= TypeName.find(3).type_name %></label><!--chkT[2]-->
+          </div>
+        </div><hr>
+        <!--サイズの選択-->
+          <!--種類で手紙を選択したときに表示-->
+          <span id="size_form_letter" style="display: none">
             <div class="row">
               <div class="col-3 text-center">
                 サイズ
               </div>
               <div class="col-9">
-                <label><%= f.radio_button(:size_id, 2, onclick: "addressForm(), barcodeForm()") %><%= Size.find(2).size %></label>
-                <label><%= f.radio_button(:size_id, 3, onclick: "addressForm(), barcodeForm()") %><%= Size.find(3).size %></label>
-                <label><%= f.radio_button(:size_id, 4, onclick: "addressForm(), barcodeForm()") %><%= Size.find(4).size %></label>
+                <label><%= f.radio_button(:size_id, 2, onclick: "weightForm(), addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Size.find(2).size %></label><!--chkS[0]-->
+                <label><%= f.radio_button(:size_id, 3, onclick: "weightForm(), addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Size.find(3).size %></label><!--chkS[1]-->
+                <label><%= f.radio_button(:size_id, 4, onclick: "weightForm(), addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Size.find(4).size %></label><!--chkS[2]-->
               </div>
             </div><hr>
           </span>
-          <!--重量に100g以内から1kg以内が選ばれたときに表示-->
-          <span id="size_form_1kg" style="display: none">
-            <div class="row">
-              <div class="col-3 text-center">
-                サイズ
-              </div>
-              <div class="col-9">
-                <label><%= f.radio_button(:size_id, 3, onclick: "addressForm()") %><%= Size.find(3).size %></label>
-                <label><%= f.radio_button(:size_id, 4, onclick: "addressForm()") %><%= Size.find(4).size %></label>
-              </div>
-            </div><hr>
-          </span>
-          <!--重量に2kg以内又は4kg以内が選ばれたときに表示-->
-          <span id="size_form_4kg" style="display: none">
-            <div class="row">
-              <div class="col-3 text-center">
-                サイズ
-              </div>
-              <div class="col-9">
-                <label><%= f.radio_button(:size_id, 4) %><%= Size.find(4).size %></label>
-              </div>
-            </div><hr>
-          </span>
-          <!--種類にはがきが選ばれたときに表示-->
+          <!--種類ではがきを選択したときに表示-->
           <span id="size_form_card" style="display: none">
             <div class="row">
               <div class="col-3 text-center">
                 サイズ
               </div>
               <div class="col-9">
-                <label><%= f.radio_button(:size_id, 5) %><%= Size.find(5).size %></label>
-                <label><%= f.radio_button(:size_id, 6) %><%= Size.find(6).size %></label>
+                <label><%= f.radio_button(:size_id, 5, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Size.find(5).size %></label><!--chkS[3]-->
+                <label><%= f.radio_button(:size_id, 6, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Size.find(6).size %></label><!--chkS[4]-->
               </div>
             </div><hr>
           </span>
-          <!--重量に25g以内から250g以内が選ばれ、かつ、サイズに定形又は定形外（規格内）が選ばれたときに表示-->
+          <!--その他の場合に表示-->
+          <span id="size_form_others" style="display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                サイズ
+              </div>
+              <div class="col-9 text-secondary">
+                種類が手紙又ははがきの場合、サイズを選択します。
+              </div>
+            </div><hr>
+          </span>
+        <!--重量の選択-->
+          <!--種類で手紙が選ばれ、かつ、サイズに定形が選ばれたときに表示-->
+          <span id="weight_form_fixed_letter" style="display: none">
+            <div class="row">
+              <div class="col-3 text-center">
+                重量
+              </div>
+              <div class="col-9">
+                <label><%= f.radio_button(:weight_id, 2, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(2).weight %></label><!--chkW[0]-->
+                <label><%= f.radio_button(:weight_id, 3, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(3).weight %></label><!--chkW[1]-->
+              </div>
+            </div><hr>
+          </span>
+          <!--種類で手紙が選ばれ、かつ、サイズに定形外(規格内)が選ばれたときに表示-->
+          <span id="weight_form_standard_letter" style="display: none">
+            <div class="row">
+              <div class="col-3 text-center">
+                重量
+              </div>
+              <div class="col-9">
+                <label><%= f.radio_button(:weight_id, 3, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(3).weight %></label><!--chkW[2]-->
+                <label><%= f.radio_button(:weight_id, 4, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(4).weight %></label><!--chkW[3]-->
+                <label><%= f.radio_button(:weight_id, 5, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(5).weight %></label><!--chkW[4]-->
+                <label><%= f.radio_button(:weight_id, 6, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(6).weight %></label><!--chkW[5]-->
+                <label><%= f.radio_button(:weight_id, 7, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(7).weight %></label><!--chkW[6]-->
+                <label><%= f.radio_button(:weight_id, 8, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(8).weight %></label><!--chkW[7]-->
+              </div>
+            </div><hr>
+          </span>
+          <!--種類で手紙が選ばれ、かつ、サイズに定形外(規格外)が選ばれたときに表示-->
+          <span id="weight_form_non_standard_letter" style="display: none">
+            <div class="row">
+              <div class="col-3 text-center">
+                重量
+              </div>
+              <div class="col-9">
+                <label><%= f.radio_button(:weight_id, 3, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(3).weight %></label><!--chkW[8]-->
+                <label><%= f.radio_button(:weight_id, 4, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(4).weight %></label><!--chkW[9]-->
+                <label><%= f.radio_button(:weight_id, 5, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(5).weight %></label><!--chkW[10]-->
+                <label><%= f.radio_button(:weight_id, 6, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(6).weight %></label><!--chkW[11]-->
+                <label><%= f.radio_button(:weight_id, 7, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(7).weight %></label><!--chkW[12]-->
+                <label><%= f.radio_button(:weight_id, 8, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(8).weight %></label><!--chkW[13]-->
+                <label><%= f.radio_button(:weight_id, 9, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(9).weight %></label><!--chkW[14]-->
+                <label><%= f.radio_button(:weight_id, 10, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(10).weight %></label><!--chkW[15]-->
+              </div>
+            </div><hr>
+          </span>
+          <!--種類でゆうメールが選ばれときに表示-->
+          <span id="weight_form_yumail" style="display: none">
+            <div class="row">
+              <div class="col-3 text-center">
+                重量
+              </div>
+              <div class="col-9">
+                <label><%= f.radio_button(:weight_id, 5, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(5).weight %></label><!--chkW[16]-->
+                <label><%= f.radio_button(:weight_id, 6, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(6).weight %></label><!--chkW[17]-->
+                <label><%= f.radio_button(:weight_id, 7, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(7).weight %></label><!--chkW[18]-->
+                <label><%= f.radio_button(:weight_id, 8, onclick: "addressForm(), barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Weight.find(8).weight %></label><!--chkW[19]-->
+              </div>
+            </div><hr>
+          </span>
+          <!--その他の場合に表示-->
+          <span id="weight_form_others" style="display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                重量
+              </div>
+              <div class="col-9 text-secondary">
+                種類が手紙又はゆうメールの場合、重量を選択します。手紙の場合はサイズを選択してから重量を選択してください。
+              </div>
+            </div><hr>
+          </span>
+        <!--宛先の選択-->
+          <!--サイズに定形又は定形外(規格内)が選ばれ、かつ、重量に25g以内から250g以内が選ばれたときに表示-->
           <span id="address_form" style="display: none">
             <div class="row">
               <div class="col-3 text-center">
                 宛先
               </div>
               <div class="col-9">
-                <label><%= f.radio_button(:address_id, 2, onclick: "barcodeForm()") %><%= Address.find(2).address %></label>
-                <label><%= f.radio_button(:address_id, 3, onclick: "barcodeForm()") %><%= Address.find(3).address %></label>
+                <label><%= f.radio_button(:address_id, 2, onclick: "barcodeForm(), deliveryDateOptionForm(), registeredOptionForm(), proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= Address.find(2).address %></label><!--chkA[0]-->
+                <br>チェックを外す場合は、ここより上のラジオボタンをもう一度選択し直してください。
               </div>
             </div><hr>
           </span>
+          <!--その他の場合に表示-->
+          <span id="address_form_others" style="display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                宛先
+              </div>
+              <div class="col-9 text-secondary">
+                サイズが定形又は定形外(規格内)で重量が250g以内の場合、宛先が集配郵便局の配達区内かどうかを選択します。
+              </div>
+            </div><hr>
+          </span>
+        <!--バーコード有無の選択-->
           <!--サイズに定形が選ばれ、かつ、宛先に区内が選ばれたときに表示-->
           <span id="barcode_form" style="display: none">
             <div class="row">
@@ -120,33 +180,71 @@
               </div>
               <div class="col-9">
                 <label><%= f.radio_button(:barcode_id, 2) %><%= Barcode.find(2).barcode %></label>
-                <label><%= f.radio_button(:barcode_id, 3) %><%= Barcode.find(3).barcode %></label>
               </div>
             </div><hr>
           </span>
-          <!--デフォルトで表示-->
-          <div class="row">
-            <div class="col-3 text-center">
-              速達<br>配達日指定
-            </div>
-            <div class="col-9">
-              <% DeliveryDateOption.all.each do |delivery_date_option| %>
-                <label><%= f.radio_button(:delivery_date_option_id, delivery_date_option.id) %><%= delivery_date_option.option %></label>
-              <% end %>
-            </div>
-          </div><hr>
-          <!--デフォルトで表示-->
-          <div class="row">
-            <div class="col-3 text-center">
-              書留<br>特定記録
-            </div>
-            <div class="col-9">
-              <label><%= f.radio_button(:registered_option_id, 1, onclick: "proofDeliveryOptionForm(), proofContentsOptionForm()") %><%= RegisteredOption.find(1).option %></label>
-              <label><%= f.radio_button(:registered_option_id, 2, onclick: "proofDeliveryOptionForm(), proofContentsOptionForm()") %><%= RegisteredOption.find(2).option %></label>
-              <label><%= f.radio_button(:registered_option_id, 3, onclick: "proofDeliveryOptionForm(), proofContentsOptionForm()") %><%= RegisteredOption.find(3).option %></label>
-              <label><%= f.radio_button(:registered_option_id, 4, onclick: "proofDeliveryOptionForm(), proofContentsOptionForm()") %><%= RegisteredOption.find(4).option %></label>
-            </div>
-          </div><hr>
+          <!--その他の場合に表示-->
+          <span id="barcode_form_others" style="display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                バーコード
+              </div>
+              <div class="col-9 text-secondary">
+                定形郵便物で宛先が区内の場合、カスタマーバーコードの有無を選択します。
+              </div>
+            </div><hr>
+          </span>
+        <!--速達、配達日指定の選択-->
+          <!--宛先で郵便区内が選択されていないときに表示-->
+          <span id="delivery_date_option_form" style="display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                速達<br>配達日指定
+              </div>
+              <div class="col-9">
+                <label><%= f.radio_button(:delivery_date_option_id, 2) %><%= DeliveryDateOption.find(2).option %></label>
+                <label><%= f.radio_button(:delivery_date_option_id, 3) %><%= DeliveryDateOption.find(3).option %></label>
+                <label><%= f.radio_button(:delivery_date_option_id, 4) %><%= DeliveryDateOption.find(4).option %></label>
+              </div>
+            </div><hr>
+          </span>
+          <!--その他の場合に表示-->
+          <span id="delivery_date_option_form_others" style="display:none ">
+            <div class="row">
+              <div class="col-3 text-center">
+                速達<br>配達日指定
+              </div>
+              <div class="col-9 text-secondary">
+                選択不可<br>選択する場合は、郵便区内のチェックを外してください。
+              </div>
+            </div><hr>
+          </span>
+        <!--書留オプションの選択-->
+          <!--宛先で郵便区内が選択されていないときに表示-->
+          <span id="registered_option_form" style="display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                書留<br>特定記録
+              </div>
+              <div class="col-9">
+                <label><%= f.radio_button(:registered_option_id, 2, onclick: "proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= RegisteredOption.find(2).option %></label>
+                <label><%= f.radio_button(:registered_option_id, 3, onclick: "proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= RegisteredOption.find(3).option %></label>
+                <label><%= f.radio_button(:registered_option_id, 4, onclick: "proofDeliveryOptionForm(), proofContentsOptionForm(), personalReceiptOptionForm()") %><%= RegisteredOption.find(4).option %></label>
+              </div>
+            </div><hr>
+          </span>
+          <!--その他の場合に表示-->
+          <span id="registered_option_form_others" style="display: none">
+            <div class="row">
+              <div class="col-3 text-center">
+                書留<br>特定記録
+              </div>
+              <div class="col-9 text-secondary">
+                選択不可<br>選択する場合は、郵便区内のチェックを外してください。
+              </div>
+            </div><hr>
+          </span>
+        <!--配達証明オプションの選択-->
           <!--書留オプションで一般書留が選択されたときに表示-->
           <span id="proof_delivery_option_form" style = "display: none">
             <div class="row">
@@ -154,12 +252,22 @@
                 配達証明
               </div>
               <div class="col-9">
-                <% ProofDeliveryOption.all.each do |proof_delivery_option| %>
-                  <label><%= f.radio_button(:proof_delivery_option_id, proof_delivery_option.id) %><%= proof_delivery_option.option %></label>
-                <% end %>
+                <label><%= f.radio_button(:proof_delivery_option_id, 2) %>配達証明にする</label>
               </div>
             </div><hr>
           </span>
+          <!--その他の場合に表示-->
+          <span id="proof_delivery_option_form_others" style = "display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                配達証明
+              </div>
+              <div class="col-9 text-secondary">
+                一般書留とする場合のみ選択できます。
+              </div>
+            </div><hr>
+          </span>
+        <!--内容証明オプションの選択-->
           <!--種類で手紙が選択され、かつ、書留オプションで一般書留が選択されたときに表示-->
           <span id="proof_contents_option_form" style = "display: none">
             <div class="row">
@@ -167,12 +275,22 @@
                 内容証明
               </div>
               <div class="col-9">
-                <% ProofContentsOption.all.each do |proof_contents_option| %>
-                  <label><%= f.radio_button(:proof_contents_option_id, proof_contents_option.id) %><%= proof_contents_option.option %></label>
-                <% end %>
+                <label><%= f.radio_button(:proof_contents_option_id, 2) %>内容証明にする</label>
               </div>
             </div><hr>
           </span>
+          <!--その他の場合に表示-->
+          <span id="proof_contents_option_form_others" style = "display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                内容証明
+              </div>
+              <div class="col-9 text-secondary">
+                種類が手紙で、かつ、一般書留とする場合のみ選択できます。
+              </div>
+            </div><hr>
+          </span>
+        <!--本人限定受取オプションの選択-->
           <!--書留オプションで一般書留が選択されたときに表示-->
           <span id="personal_receipt_option_form" style="display: none">
             <div class="row">
@@ -180,341 +298,529 @@
                 本人限定受取
               </div>
               <div class="col-9">
-                <% PersonalReceiptOption.all.each do |personal_receipt_option| %>
-                  <label><%= f.radio_button(:personal_receipt_option_id, personal_receipt_option.id) %><%= personal_receipt_option.option %></label>
-                <% end %>
+                <label><%= f.radio_button(:personal_receipt_option_id, 2) %>本人限定受取にする</label>
               </div>
             </div><hr>
           </span>
-          <!--デフォルトで表示-->
-          <div class="row">
-            <div class="col-3 text-center">
-              通数
-            </div>
-            <div class="col-4">
-              <%= f.text_field :number, class: "form-control" %>
-            </div>
-          </div><br>
-          <div class="row">
-            <div class="col-12">
-              <%= f.submit "新規登録", class: "btn btn-success btn-sm form-control" %>
-            </div>
-          </div><br>
-         <% end %>
-        </div>
+          <!--その他の場合に表示-->
+          <span id="personal_receipt_option_form_others" style="display: ">
+            <div class="row">
+              <div class="col-3 text-center">
+                本人限定受取
+              </div>
+              <div class="col-9 text-secondary">
+                一般書留とする場合のみ選択できます。
+              </div>
+            </div><hr>
+          </span>
+
+
+        <!--デフォルトで表示-->
+        <div class="row">
+          <div class="col-3 text-center">
+            通数
+          </div>
+          <div class="col-9">
+            登録済の差出郵便と同一条件で登録した場合は、登録済の差出郵便の通数に追加されます。
+            <%= text_field :letter, :number, class: "form-control" %>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-12">
+            <%= f.submit "新規登録", class: "btn btn-success btn-sm form-control" %>
+          </div>
+        </div><br>
+       <% end %>
       </div>
-      <div class="col-6 offset-1">
-        <h5>登録済一覧</h5>
-        <div class = "row">
-          <table class = "table table-bordered table-sm">
-          <% @letters.each do |letter| %>
-            <tr>
-              <td style="width:30%">
-                <%= letter.type.type_name.type_name %>
-                <% if letter.type.weight_id != 1 %>
-                  <%= letter.type.weight.weight %><br>
-                <% end %>
-                <% if letter.type.size_id != 1 %>
-                  <%= letter.type.size.size %><br>
-                <% end %>
-                <% if letter.type.address_id != 1 %>
-                  <%= letter.type.address.address %><br>
-                <% end %>
-                <% if letter.type.barcode_id != 1 %>
-                  <%= letter.type.barcode.barcode %><br>
-                <% end %>
-              </td>
-              <td style="width:40%">
-                <% if letter.type.delivery_date_option_id != 1 %>
-                  <%= letter.type.delivery_date_option.option %><br>
-                <% end %>
-                <% if letter.type.registered_option_id != 1 %>
-                  <%= letter.type.registered_option.option %><br>
-                <% end %>
-                <% if letter.type.proof_delivery_option_id != 1 %>
-                  <%= letter.type.proof_delivery_option.option %><br>
-                <% end %>
-                <% if letter.type.proof_contents_option_id != 1 %>
-                  <%= letter.type.proof_contents_option.option %><br>
-                <% end %>
-                <% if letter.type.personal_receipt_option_id != 1 %>
-                  <%= letter.type.personal_receipt_option.option %><br>
-                <% end %>
-              </td>
-              <td style="width:15%">
-                <%= form_with model: letter, url: "/letters/#{letter.id}", method: :patch do |f| %>
-                    <%= f.text_field :number, class: "form-control" %><br><%= f.submit '変更', class: "btn btn-success btn-sm form-control" %>
-                <% end %>
-              </td>
-              <td style="vertical-align:middle">
-                <%= link_to "削除", "letters/#{letter.id}", method: :delete, class: "btn btn-danger btn-sm form-control" %>
-              </td>
-            </tr>
-          <% end %>
-          </table>
+    </div>
+    <div class="col-6 offset-1">
+      <h5>登録済一覧</h5>
+      <div class = "row">
+        <table class = "table table-bordered table-sm">
+        <% @letters.each do |letter| %>
+          <tr>
+            <td style="width:30%">
+              <%= letter.type.type_name.type_name %>
+              <% if letter.type.weight_id != 1 %>
+                <%= letter.type.weight.weight %><br>
+              <% end %>
+              <% if letter.type.size_id != 1 %>
+                <%= letter.type.size.size %><br>
+              <% end %>
+              <% if letter.type.address_id != 1 %>
+                <%= letter.type.address.address %><br>
+              <% end %>
+              <% if letter.type.barcode_id != 1 %>
+                <%= letter.type.barcode.barcode %><br>
+              <% end %>
+            </td>
+            <td style="width:40%">
+              <% if letter.type.delivery_date_option_id != 1 %>
+                <%= letter.type.delivery_date_option.option %><br>
+              <% end %>
+              <% if letter.type.registered_option_id != 1 %>
+                <%= letter.type.registered_option.option %><br>
+              <% end %>
+              <% if letter.type.proof_delivery_option_id != 1 %>
+                <%= letter.type.proof_delivery_option.option %><br>
+              <% end %>
+              <% if letter.type.proof_contents_option_id != 1 %>
+                <%= letter.type.proof_contents_option.option %><br>
+              <% end %>
+              <% if letter.type.personal_receipt_option_id != 1 %>
+                <%= letter.type.personal_receipt_option.option %><br>
+              <% end %>
+            </td>
+            <td style="width:15%">
+              <%= form_with model: letter, url: "/letters/#{letter.id}", method: :patch do |f| %>
+                  <%= f.text_field :number, class: "form-control" %><br><%= f.submit '変更', class: "btn btn-success btn-sm form-control" %>
+              <% end %>
+            </td>
+            <td style="vertical-align:middle">
+              <%= link_to "削除", "letters/#{letter.id}", method: :delete, class: "btn btn-danger btn-sm form-control" %>
+            </td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+      <div class = "row">
+        <div class = "col-4">
+          <%= link_to "支払予算の入力へ", new_send_letter_path, class: "btn btn-success form-control" %>
         </div>
-        <div class = "row">
-          <div class = "col-4">
-            <%= link_to "支払予算の入力へ", send_letters_new_path, class: "btn btn-success form-control" %>
-          </div>
-          <div class = "col-4 offset-4">
-            <%= link_to "全て削除", letters_destroy_all_path, method: :delete, class: "btn btn-danger form-control" %>
-          </div>
+        <div class = "col-4 offset-4">
+          <%= link_to "全て削除", letters_destroy_all_path, method: :delete, class: "btn btn-danger form-control" %>
         </div>
       </div>
     </div>
+  </div>
 </main>
 <script>
-  function weightForm() {
-    chk = document.getElementsByName('letter[type_name_id]')
-    if (chk[0].checked) {
-        document.getElementById('weight_form_letter').style.display = "";
-        document.getElementById('weight_form_yumail').style.display = "none";
-        document.getElementById('size_form_50g').style.display = "none";
-        document.getElementById('size_form_1kg').style.display = "none";
-        document.getElementById('size_form_4kg').style.display = "none";
-        document.getElementById('size_form_card').style.display = "none";
-        document.getElementById('address_form').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[weight_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
-    } else if (chk[2].checked) {
-        document.getElementById('weight_form_letter').style.display = "none";
-        document.getElementById('weight_form_yumail').style.display = "";
-        document.getElementById('size_form_50g').style.display = "none";
-        document.getElementById('size_form_1kg').style.display = "none";
-        document.getElementById('size_form_4kg').style.display = "none";
-        document.getElementById('size_form_card').style.display = "none";
-        document.getElementById('address_form').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[weight_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
-      } else {
-        document.getElementById('weight_form_letter').style.display = "none";
-        document.getElementById('weight_form_yumail').style.display = "none";
-        document.getElementById('size_form_50g').style.display = "none";
-        document.getElementById('size_form_1kg').style.display = "none";
-        document.getElementById('size_form_4kg').style.display = "none";
-        document.getElementById('size_form_card').style.display = "none";
-        document.getElementById('address_form').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[weight_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
-    }
-  };
+  /*サイズフォーム*/
   function sizeForm() {
-    chkT = document.getElementsByName('letter[type_name_id]')
-    chkW = document.getElementsByName('letter[weight_id]')
-    if (chkW[0].checked || chkW[1].checked) {
-        document.getElementById('size_form_50g').style.display = "";
-        document.getElementById('size_form_1kg').style.display = "none";
-        document.getElementById('size_form_4kg').style.display = "none";
-        document.getElementById('size_form_card').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
-    } else if (chkW[2].checked || chkW[3].checked || chkW[4].checked || chkW[5].checked || chkW[6].checked) {
-        document.getElementById('size_form_50g').style.display = "none";
-        document.getElementById('size_form_1kg').style.display = "";
-        document.getElementById('size_form_4kg').style.display = "none";
-        document.getElementById('size_form_card').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
-    } else if (chkW[7].checked || chkW[8].checked) {
-        document.getElementById('size_form_50g').style.display = "none";
-        document.getElementById('size_form_1kg').style.display = "none";
-        document.getElementById('size_form_4kg').style.display = "";
-        document.getElementById('size_form_card').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
+    chkT = document.getElementsByName('type[type_name_id]')
+    if (chkT[0].checked) {
+      document.getElementById('size_form_letter').style.display = "";
+      document.getElementById('size_form_card').style.display = "none";
+      document.getElementById('size_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[size_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
     } else if (chkT[1].checked) {
-        document.getElementById('size_form_50g').style.display = "none";
-        document.getElementById('size_form_1kg').style.display = "none";
-        document.getElementById('size_form_4kg').style.display = "none";
-        document.getElementById('size_form_card').style.display = "";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
+      document.getElementById('size_form_letter').style.display = "none";
+      document.getElementById('size_form_card').style.display = "";
+      document.getElementById('size_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[size_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
     } else {
-        document.getElementById('size_form_50g').style.display = "none";
-        document.getElementById('size_form_1kg').style.display = "none";
-        document.getElementById('size_form_4kg').style.display = "none";
-        document.getElementById('size_form_card').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[size_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
+      document.getElementById('size_form_letter').style.display = "none";
+      document.getElementById('size_form_card').style.display = "none";
+      document.getElementById('size_form_others').style.display = "";
+      for (const element of document.getElementsByName('type[size_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
     }
   };
+  /*重量フォーム*/
+  function weightForm() {
+    chkT = document.getElementsByName('type[type_name_id]')
+    chkS = document.getElementsByName('type[size_id]')
+    if (chkT[0].checked && chkS[0].checked) {
+      document.getElementById('weight_form_fixed_letter').style.display = "";
+      document.getElementById('weight_form_standard_letter').style.display = "none";
+      document.getElementById('weight_form_non_standard_letter').style.display = "none";
+      document.getElementById('weight_form_yumail').style.display = "none";
+      document.getElementById('weight_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
+    } else if (chkT[0].checked && chkS[1].checked) {
+      document.getElementById('weight_form_fixed_letter').style.display = "none";
+      document.getElementById('weight_form_standard_letter').style.display = "";
+      document.getElementById('weight_form_non_standard_letter').style.display = "none";
+      document.getElementById('weight_form_yumail').style.display = "none";
+      document.getElementById('weight_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
+    } else if (chkT[0].checked && chkS[2].checked) {
+      document.getElementById('weight_form_fixed_letter').style.display = "none";
+      document.getElementById('weight_form_standard_letter').style.display = "none";
+      document.getElementById('weight_form_non_standard_letter').style.display = "";
+      document.getElementById('weight_form_yumail').style.display = "none";
+      document.getElementById('weight_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
+    } else if (chkT[2].checked) {
+      document.getElementById('weight_form_fixed_letter').style.display = "none";
+      document.getElementById('weight_form_standard_letter').style.display = "none";
+      document.getElementById('weight_form_non_standard_letter').style.display = "none";
+      document.getElementById('weight_form_yumail').style.display = "";
+      document.getElementById('weight_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
+    } else {
+      document.getElementById('weight_form_fixed_letter').style.display = "none";
+      document.getElementById('weight_form_standard_letter').style.display = "none";
+      document.getElementById('weight_form_non_standard_letter').style.display = "none";
+      document.getElementById('weight_form_yumail').style.display = "none";
+      document.getElementById('weight_form_others').style.display = "";
+      for (const element of document.getElementsByName('type[weight_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
+    }
+  };
+  /*宛先フォーム*/
   function addressForm() {
-    chkW = document.getElementsByName('letter[weight_id]')
-    chkS = document.getElementsByName('letter[size_id]')
-    if ((chkW[0].checked || chkW[1].checked || chkW[2].checked || chkW[3].checked || chkW[4].checked) && ((chkS[0].checked || chkS[1].checked) || (chkS[3].checked || chkS[4].checked))) {
-        document.getElementById('address_form').style.display = "";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
+    chkS = document.getElementsByName('type[size_id]')
+    chkW = document.getElementsByName('type[weight_id]')
+    if ((chkS[0].checked || chkS[1].checked) && (chkW[0].checked || chkW[1].checked || chkW[2].checked || chkW[3].checked || chkW[4].checked || chkW[5].checked)) {
+      document.getElementById('address_form').style.display = "";
+      document.getElementById('address_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
     } else {
-        document.getElementById('address_form').style.display = "none";
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[address_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
-        element.checked = false;
-        }
+      document.getElementById('address_form').style.display = "none";
+      document.getElementById('address_form_others').style.display = "";
+      for (const element of document.getElementsByName('type[address_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[registered_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+      element.checked = false;
+      }
+      for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+      element.checked = false;
+      }
     }
   };
+  /*バーコードフォーム*/
   function barcodeForm() {
-    chkS = document.getElementsByName('letter[size_id]')
-    chkA = document.getElementsByName('letter[address_id]')
-    if (chkS[0].checked && chkA[0].checked) {
-        document.getElementById('barcode_form').style.display = "";
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
+    chkS = document.getElementsByName('type[size_id]')
+    chkA = document.getElementsByName('type[address_id]')
+    if (chkS[0].checked && chkA[1].checked) {
+      document.getElementById('barcode_form').style.display = "";
+      document.getElementById('barcode_form_others').style.display = "none";
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+    } else {
+      document.getElementById('barcode_form').style.display = "none";
+      document.getElementById('barcode_form_others').style.display = "";
+      for (const element of document.getElementsByName('type[barcode_id]')) {
+      element.checked = false;
+      }
+    }
+  };
+  /*配達日オプションフォーム*/
+  function deliveryDateOptionForm() {
+    chkA = document.getElementsByName('type[address_id]')
+    if (chkA[1].checked) {
+        document.getElementById('delivery_date_option_form').style.display = "none";
+        document.getElementById('delivery_date_option_form_others').style.display = "";
+        for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
         element.checked = false;
         }
     } else {
-        document.getElementById('barcode_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[barcode_id]')) {
+        document.getElementById('delivery_date_option_form').style.display = "";
+        document.getElementById('delivery_date_option_form_others').style.display = "none";
+        for (const element of document.getElementsByName('type[delivery_date_option_id]')) {
         element.checked = false;
         }
     }
   };
+  /*書留オプションフォーム*/
+  function registeredOptionForm() {
+    chkA = document.getElementsByName('type[address_id]')
+    if (chkA[1].checked) {
+        document.getElementById('registered_option_form').style.display = "none";
+        document.getElementById('registered_option_form_others').style.display = "";
+        for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+        element.checked = false;
+        }
+        for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+        element.checked = false;
+        }
+        for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+        element.checked = false;
+        }
+    } else {
+        document.getElementById('registered_option_form').style.display = "";
+        document.getElementById('registered_option_form_others').style.display = "none";
+        for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
+        element.checked = false;
+        }
+        for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
+        element.checked = false;
+        }
+        for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
+        element.checked = false;
+        }
+    }
+  };
+  /*配達証明オプションフォーム*/
   function proofDeliveryOptionForm() {
-    chk = document.getElementsByName('letter[registered_option_id]')
-    if (chk[3].checked) {
+    chkR = document.getElementsByName('type[registered_option_id]')
+    if (chkR[3].checked) {
         document.getElementById('proof_delivery_option_form').style.display = "";
-        document.getElementById('proof_contents_option_form').style.display = "none";
-        document.getElementById('personal_receipt_option_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[proof_delivery_option_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[proof_contents_option_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[personal_receipt_option_id]')) {
+        document.getElementById('proof_delivery_option_form_others').style.display = "none";
+        for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
         element.checked = false;
         }
     } else {
         document.getElementById('proof_delivery_option_form').style.display = "none";
-        document.getElementById('proof_contents_option_form').style.display = "none";
-        document.getElementById('personal_receipt_option_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[proof_delivery_option_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[proof_contents_option_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[personal_receipt_option_id]')) {
+        document.getElementById('proof_delivery_option_form_others').style.display = "";
+        for (const element of document.getElementsByName('type[proof_delivery_option_id]')) {
         element.checked = false;
         }
     }
   };
+  /*内容証明オプションフォーム*/
   function proofContentsOptionForm() {
-    chkT = document.getElementsByName('letter[type_name_id]')
-    chkR = document.getElementsByName('letter[registered_option_id]')
+    chkT = document.getElementsByName('type[type_name_id]')
+    chkR = document.getElementsByName('type[registered_option_id]')
     if (chkT[0].checked && chkR[3].checked) {
         document.getElementById('proof_contents_option_form').style.display = "";
-        document.getElementById('personal_receipt_option_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[proof_contents_option_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[personal_receipt_option_id]')) {
+        document.getElementById('proof_contents_option_form_others').style.display = "none";
+        for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
         element.checked = false;
         }
     } else {
         document.getElementById('proof_contents_option_form').style.display = "none";
-        document.getElementById('personal_receipt_option_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[proof_contents_option_id]')) {
-        element.checked = false;
-        }
-        for (const element of document.getElementsByName('letter[personal_receipt_option_id]')) {
+        document.getElementById('proof_contents_option_form_others').style.display = "";
+        for (const element of document.getElementsByName('type[proof_contents_option_id]')) {
         element.checked = false;
         }
     }
   };
+  /*本人限定受取オプションフォーム*/
   function personalReceiptOptionForm() {
-    chk = document.getElementsByName('letter[registered_option_id]')
-    if (chk[3].checked) {
+    chkR = document.getElementsByName('type[registered_option_id]')
+    if (chkR[3].checked) {
         document.getElementById('personal_receipt_option_form').style.display = "";
-        for (const element of document.getElementsByName('letter[personal_receipt_option_id]')) {
+        document.getElementById('personal_receipt_option_form_others').style.display = "none";
+        for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
         element.checked = false;
         }
     } else {
         document.getElementById('personal_receipt_option_form').style.display = "none";
-        for (const element of document.getElementsByName('letter[personal_receipt_option_id]')) {
+        document.getElementById('personal_receipt_option_form_others').style.display = "";
+        for (const element of document.getElementsByName('type[personal_receipt_option_id]')) {
         element.checked = false;
         }
     }
   };
+
+
+
+
 </script>

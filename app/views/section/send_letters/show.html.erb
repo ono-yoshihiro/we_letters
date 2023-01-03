@@ -5,7 +5,7 @@
       <br><h3 class="col-7"><%= @send_letter.created_at.strftime('%Y/%m/%d') %>　<%= @send_letter.section.name %>(<%= @send_letter.payment_budget.budget.name%>)の差出郵便詳細</h3><br>
       <h5 class="col-3 d-flex align-items-center">合計金額 <%= @send_letter.total_price.to_s(:delimited) %>円</h5>
       <% if section_signed_in? && @send_letter.section_id == current_section.id && @send_letter.status == false %>
-        <span class="col-2"><%=link_to "削除", "send_letters/#{@send_letter.id}", method: :delete, class: "btn btn-danger btn-sm" %></span>
+        <span class="col-2"><%=link_to "削除", send_letter_path(@send_letter), method: :delete, data: { confirm: '削除すると現在登録中の差出郵便(支払予算登録前)が削除され、削除された差出郵便が上書き登録されます。よろしいですか？' }, class: "btn btn-danger btn-sm" %></span>
       <% else %>
         <span></span>
       <% end %>

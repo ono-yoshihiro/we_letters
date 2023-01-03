@@ -1,5 +1,13 @@
 <!--管理者　予算登録画面-->
 <main>
+  <%if @budget.errors.any? %>
+    <div class="container border border-danger text-danger small">
+      <p class="border-bottom border-danger"><%= pluralize(@budget.errors.count, "件のエラー") %></p>
+      <% @budget.errors.full_messages.each do |message| %>
+        ・<%= message %><br>
+      <% end %>
+    </div>
+  <% end %>
   <div class="text-center">
     <%= form_with model: @budget, url: admin_budgets_path, method: :post do |f| %>
       <br><h3>予算登録</h3><br>

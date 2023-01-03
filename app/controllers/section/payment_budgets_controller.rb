@@ -1,5 +1,8 @@
 class Section::PaymentBudgetsController < ApplicationController
 
+  before_action :authenticate_section!
+  before_action :suspension_of_use
+
   def index
     @payment_budgets = PaymentBudget.where(section_id: current_section.id).where(registration: true)
     @unregistered_payment_budgets = PaymentBudget.where(section_id: current_section.id).where(registration: false)
@@ -13,6 +16,12 @@ class Section::PaymentBudgetsController < ApplicationController
       payment_budget.update(registration: false)
     end
     redirect_to payment_budgets_path
+  end
+
+  private
+
+  def suspension_of_use
+    redirect_to root_path, notice: '利用停止中です。利用を開始するには管理者に連絡してください。' unless current_section.status == false
   end
 
 end

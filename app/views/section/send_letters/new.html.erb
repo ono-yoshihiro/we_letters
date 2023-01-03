@@ -1,81 +1,83 @@
 <!--部署　差出郵便確定画面-->
 <main class="container">
-  <br><h3 class="text-center">差出郵便を確定する</h3><br>
-    <%= form_with model: @send_letter, url: send_letters_path, method: :post do |f| %>
-      <div class = "row small">
-        <div class = "col-2 h5">
-          予算選択
-        </div>
-        <div class = "col-8">
-          <% if @payment_budgets.present? %>
-            <% @payment_budgets.each do |payment_budget| %>
-              <label><%= f.radio_button(:payment_budget_id, payment_budget.id) %><%= payment_budget.budget.name %></label>
+  <% if current_section.letters.present? %>
+    <br><h3 class="text-center">差出郵便を確定する</h3><br>
+      <%= form_with model: @send_letter, url: send_letters_path, method: :post do |f| %>
+        <div class = "row small">
+          <div class = "col-2 h5">
+            予算選択
+          </div>
+          <div class = "col-8">
+            <% if @payment_budgets.present? %>
+              <% @payment_budgets.each do |payment_budget| %>
+                <label><%= f.radio_button(:payment_budget_id, payment_budget.id) %><%= payment_budget.budget.name %></label>
+              <% end %>
+            <% else %>
+              <%= link_to "支払予算を登録する", payment_budgets_path, class: "btn btn-primary btn-sm" %>
             <% end %>
-          <% else %>
-            <%= link_to "支払予算を登録する", payment_budgets_path, class: "btn btn-primary btn-sm" %>
-          <% end %>
+          </div>
+          <div class = "col-2">
+            <%= f.submit '確定する', class: "btn btn-success btn-sm" %>
+          </div>
+        </div><hr>
+      <% end %>
+      <div class="row">
+        <div class = "col-2 h5">
+          差出郵便
         </div>
-        <div class = "col-2">
-          <%= f.submit '確定する', class: "btn btn-success btn-sm" %>
-        </div>
-      </div><hr>
-    <% end %>
-    <div class="row">
-      <div class = "col-2 h5">
-        差出郵便
-      </div>
-      <table class = "table table-bordered border-dark table-sm small">
-        <thead>
-          <tr class="text-center">
-            <th class="border-dark">種類</th>
-            <th class="border-dark">オプション</th>
-            <th class="border-dark">通数</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @letters.each do |letter| %>
-            <tr style="height:90px">
-              <td class="border-dark" style="width:30%">
-                <%= letter.type.type_name.type_name %>
-                <% if letter.type.weight_id != 1 %>
-                  <%= letter.type.weight.weight %><br>
-                <% end %>
-                <% if letter.type.size_id != 1 %>
-                  <%= letter.type.size.size %><br>
-                <% end %>
-                <% if letter.type.address_id != 1 %>
-                  <%= letter.type.address.address %><br>
-                <% end %>
-                <% if letter.type.barcode_id != 1 %>
-                  <%= letter.type.barcode.barcode %><br>
-                <% end %>
-              </td>
-              <td class="border-dark" style="width:40%">
-                <% if letter.type.delivery_date_option_id != 1 %>
-                  <%= letter.type.delivery_date_option.option %><br>
-                <% end %>
-                <% if letter.type.registered_option_id != 1 %>
-                  <%= letter.type.registered_option.option %><br>
-                <% end %>
-                <% if letter.type.proof_delivery_option_id != 1 %>
-                  <%= letter.type.proof_delivery_option.option %><br>
-                <% end %>
-                <% if letter.type.proof_contents_option_id != 1 %>
-                  <%= letter.type.proof_contents_option.option %><br>
-                <% end %>
-                <% if letter.type.personal_receipt_option_id != 1 %>
-                  <%= letter.type.personal_receipt_option.option %><br>
-                <% end %>
-              </td>
-              <td class="border-dark" style="vertical-align:middle">
-                <%= letter.number %>
-              </td>
+        <table class = "table table-bordered border-dark table-sm small">
+          <thead>
+            <tr class="text-center">
+              <th class="border-dark">種類</th>
+              <th class="border-dark">オプション</th>
+              <th class="border-dark">通数</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% @letters.each do |letter| %>
+              <tr style="height:90px">
+                <td class="border-dark" style="width:30%">
+                  <%= letter.type.type_name.type_name %>
+                  <% if letter.type.weight_id != 1 %>
+                    <%= letter.type.weight.weight %><br>
+                  <% end %>
+                  <% if letter.type.size_id != 1 %>
+                    <%= letter.type.size.size %><br>
+                  <% end %>
+                  <% if letter.type.address_id != 1 %>
+                    <%= letter.type.address.address %><br>
+                  <% end %>
+                  <% if letter.type.barcode_id != 1 %>
+                    <%= letter.type.barcode.barcode %><br>
+                  <% end %>
+                </td>
+                <td class="border-dark" style="width:40%">
+                  <% if letter.type.delivery_date_option_id != 1 %>
+                    <%= letter.type.delivery_date_option.option %><br>
+                  <% end %>
+                  <% if letter.type.registered_option_id != 1 %>
+                    <%= letter.type.registered_option.option %><br>
+                  <% end %>
+                  <% if letter.type.proof_delivery_option_id != 1 %>
+                    <%= letter.type.proof_delivery_option.option %><br>
+                  <% end %>
+                  <% if letter.type.proof_contents_option_id != 1 %>
+                    <%= letter.type.proof_contents_option.option %><br>
+                  <% end %>
+                  <% if letter.type.personal_receipt_option_id != 1 %>
+                    <%= letter.type.personal_receipt_option.option %><br>
+                  <% end %>
+                </td>
+                <td class="border-dark" style="vertical-align:middle">
+                  <%= letter.number %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-
-  </div>
+  <% else %>
+    <br><p class="text-danger">差出郵便が登録されていません。「差出郵便の登録」メニューから差出郵便を登録してください。</p>
+  <% end %>
 </main>

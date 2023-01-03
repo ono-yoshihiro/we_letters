@@ -1,5 +1,7 @@
 class Admin::BudgetsController < ApplicationController
 
+  before_action :authenticate_admin!
+
   def index
     @budgets = Budget.where(is_deleted: false)
     @removed_budgets = Budget.where(is_deleted: true)
@@ -7,8 +9,10 @@ class Admin::BudgetsController < ApplicationController
   end
 
   def create
-    budget = Budget.new(budget_params)
-    if budget.save
+    @budget = Budget.new(budget_params)
+    @budgets = Budget.where(is_deleted: false)
+    @removed_budgets = Budget.where(is_deleted: true)
+    if @budget.save
       sections = Section.all
       sections.each do |section|
       PaymentBudget.create(section_id: section.id, budget_id: budget.id)
@@ -24,8 +28,8 @@ class Admin::BudgetsController < ApplicationController
   end
 
   def update
-    budget = Budget.find(params[:id])
-    if budget.update(budget_params)
+    @budget = Budget.find(params[:id])
+    if @budget.update(budget_params)
       redirect_to admin_budgets_path
     else
       render :edit
@@ -45,7 +49,7 @@ class Admin::BudgetsController < ApplicationController
 
   def destroy
     budget = Budget.find(params[:id])
-    if SendLetter.where(PaymentBudget.budget_id).present?
+    if SendLetter.where(payment_budget_id: PaymentBudget.find_by(budget_id: budget.id).id).present?
       redirect_to admin_budgets_path
     else
       budget.destroy
@@ -54,6 +58,7 @@ class Admin::BudgetsController < ApplicationController
   end
 
   private
+
   def budget_params
     params.require(:budget).permit(:name, :is_deleted)
   end

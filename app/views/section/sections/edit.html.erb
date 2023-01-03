@@ -1,4 +1,12 @@
 <main>
+  <%if @section.errors.any? %>
+    <div class="container border border-danger text-danger small">
+      <p class="border-bottom border-danger"><%= pluralize(@section.errors.count, "件のエラー") %></p>
+      <% @section.errors.full_messages.each do |message| %>
+        ・<%= message %><br>
+      <% end %>
+    </div>
+  <% end %>
   <div class="text-center form-signin">
     <%= form_with model: @section, url: section_information_path, method: :patch do |f| %>
       <br><h3>部署情報を編集する</h3><br>

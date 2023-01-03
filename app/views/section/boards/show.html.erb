@@ -1,0 +1,18 @@
+<!--連絡事項詳細画面-->
+<main>
+  <div class="container"><br>
+    <% if @board.section_id.nil? %>
+      <h3><%= @board.title %>(管理者/<%= @board.created_at.strftime('%Y/%m/%d') %>)</h3><br><br>
+    <% else %>
+      <h3><%= @board.title %>(<%= @board.section.name %>/<%= @board.created_at.strftime('%Y/%m/%d') %>)</h3><br><br>
+    <% end %>
+    <div class="border border-dark" style="height: 400px">
+      <%= @board.body %>
+    </div>
+    <% if admin_signed_in? || @board.section_id == current_section.id %>
+      <div class="text-right">
+        <%= link_to "削除", board_path(@board), method: :delete, class: "btn btn-danger" %>
+      </div>
+    <% end %>
+  </div>
+</main>
