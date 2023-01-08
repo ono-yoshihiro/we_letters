@@ -1,7 +1,9 @@
 class Section::LettersController < ApplicationController
 
   before_action :authenticate_section!
+  #利用停止中の部署の利用を制限
   before_action :suspension_of_use
+  #登録済の支払予算が一つもない場合の利用を制限
   before_action :non_payment_budget
 
   def index

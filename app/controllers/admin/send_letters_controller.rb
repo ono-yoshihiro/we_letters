@@ -2,11 +2,6 @@ class Admin::SendLettersController < ApplicationController
 
   before_action :authenticate_admin!
 
-  def index
-    @month = params[:month] ? Date.parse(params[:month]) : Time.zone.today
-    @send_letters = SendLetter.where(created_at: @month.all_month).order(:payment_budget_id)
-  end
-
   def update_all
     send_letters = SendLetter.where("created_at >= ?", Date.today)
       if send_letters.exists?(status: false)

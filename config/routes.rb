@@ -16,7 +16,6 @@ resources :report_pdfs, only: [:index]
     get 'sections' => 'sections#index'
     patch 'sections/:id' => 'sections#logical_delete'
     patch 'send_letters/update_all' => 'send_letters#update_all'
-    resources :send_letters, only: [:index]
     get 'monthly_report' => 'send_letters#monthly_report'
   end
 

@@ -1,6 +1,7 @@
 class Admin::PostOfficesController < ApplicationController
 
   before_action :authenticate_admin!
+  #1件のみしか登録できない想定であるため、登録済の場合は、editページへリダイレクト
   before_action :registered_post_office, if: -> { PostOffice.find(1).present? }, only: [:new]
 
   def new
@@ -35,7 +36,7 @@ class Admin::PostOfficesController < ApplicationController
   end
 
   def registered_post_office
-    redirect_to edit_admin_post_office_path(1)
+    redirect_to edit_admin_post_office_path(1), notice: '集配郵便局等情報は既に登録済です。'
   end
 
 end

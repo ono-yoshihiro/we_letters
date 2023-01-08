@@ -1,19 +1,24 @@
 <!--部署　差出郵便確定画面-->
 <main class="container">
+  <%if @send_letter.errors.any? %>
+    <br><div class="container border border-danger text-danger small">
+      <p class="border-bottom border-danger"><%= "#{@send_letter.errors.count}件のエラー" %></p>
+      <% @send_letter.errors.full_messages.each do |message| %>
+        ・<%= message %><br>
+      <% end %>
+    </div>
+  <% end %>
   <% if current_section.letters.present? %>
     <br><h3 class="text-center">差出郵便を確定する</h3><br>
       <%= form_with model: @send_letter, url: send_letters_path, method: :post do |f| %>
+        <%= f.hidden_field :payment_budget_id, value: "" %>
         <div class = "row small">
           <div class = "col-2 h5">
             予算選択
           </div>
           <div class = "col-8">
-            <% if @payment_budgets.present? %>
-              <% @payment_budgets.each do |payment_budget| %>
-                <label><%= f.radio_button(:payment_budget_id, payment_budget.id) %><%= payment_budget.budget.name %></label>
-              <% end %>
-            <% else %>
-              <%= link_to "支払予算を登録する", payment_budgets_path, class: "btn btn-primary btn-sm" %>
+            <% @payment_budgets.each do |payment_budget| %>
+              <label><%= f.radio_button(:payment_budget_id, payment_budget.id) %><%= payment_budget.budget.name %></label>
             <% end %>
           </div>
           <div class = "col-2">

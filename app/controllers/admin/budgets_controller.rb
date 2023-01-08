@@ -50,7 +50,7 @@ class Admin::BudgetsController < ApplicationController
   def destroy
     budget = Budget.find(params[:id])
     if SendLetter.where(payment_budget_id: PaymentBudget.find_by(budget_id: budget.id).id).present?
-      redirect_to admin_budgets_path
+      redirect_to admin_budgets_path, notice: '支払予算として使用履歴があるため完全削除はできません。'
     else
       budget.destroy
       redirect_to admin_budgets_path

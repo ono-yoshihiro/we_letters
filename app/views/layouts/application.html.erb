@@ -29,8 +29,6 @@
                 <p>部署一覧画面です。<br>部署の使用を停止又は再開することができます。</p>
               <% elsif current_page?(controller: 'admin/post_offices', action: 'new')%>
                 <p>集配郵便局等情報登録画面です。<br>集配郵便局名、集配郵便局の配達区域となる郵便番号、後納郵便等差出票に印字する差出人名、お客様番号を登録してください。</p>
-              <% elsif current_page?(controller: 'admin/send_letters', action: 'index')%>
-                <p>本日の差出郵便一覧です。<br>全ての部署の登録完了を確認したら、確定してください。</p>
               <% elsif current_page?(controller: 'admin/budgets', action: 'index')%>
                 <p>予算登録画面です。<br>部署が支払予算として登録できる予算を作成、削除できます。<br>予算の完全削除は、一度でも支払予算として使用された後にはできません。</p>
               <% elsif current_page?(controller: 'section/registrations', action: 'new')%>

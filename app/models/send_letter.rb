@@ -2,8 +2,7 @@ class SendLetter < ApplicationRecord
   has_many :letter_details, dependent: :destroy
   belongs_to :section
   belongs_to :payment_budget
-
-#  default_scope -> { order(:section_id, :payment_budget_id) }
+  validates :payment_budget_id, presence: true
 
   def total_number
     self.letter_details.sum(:number)

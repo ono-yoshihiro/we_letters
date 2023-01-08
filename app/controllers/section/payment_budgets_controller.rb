@@ -1,6 +1,7 @@
 class Section::PaymentBudgetsController < ApplicationController
 
   before_action :authenticate_section!
+  #利用停止中の部署の利用を制限
   before_action :suspension_of_use
 
   def index

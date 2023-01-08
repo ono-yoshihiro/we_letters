@@ -40,7 +40,6 @@ class Type < ApplicationRecord
 #    end
 #  end
 
-
   def get_id
     if type_name_id == 2
       Type.find_by!(

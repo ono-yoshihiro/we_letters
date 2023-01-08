@@ -15,7 +15,6 @@ def initialize(types)
     #差出票に載せる郵便種別のみが配列で入っている
     @types = types
 
-    stroke_axis
 
     #タイトル
     title

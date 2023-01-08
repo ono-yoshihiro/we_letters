@@ -1,5 +1,6 @@
 class Section::BoardsController < ApplicationController
 
+#管理者としても部署としてもログインしていない場合の利用を制限
 before_action :non_login
 
   def new
@@ -12,7 +13,7 @@ before_action :non_login
       @board.section_id = current_section.id
     end
     if @board.save
-      redirect_to "/"
+      redirect_to root_path
     else
       render :new
     end
@@ -25,7 +26,7 @@ before_action :non_login
   def destroy
     board = Board.find(params[:id])
     board.destroy
-    redirect_to "/"
+    redirect_to root_path
   end
 
   def board_params
