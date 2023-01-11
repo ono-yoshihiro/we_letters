@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 2022_12_31_084402) do
     t.string "name", null: false
     t.string "pic_name", null: false
     t.string "telephone_number", null: false
-    t.boolean "status", default: true, null: false
+    t.boolean "status", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_sections_on_email", unique: true

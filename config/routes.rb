@@ -4,8 +4,7 @@ root :to => 'section/homes#top'
 resources :report_pdfs, only: [:index]
 
 #管理者用ページのroute
-  devise_for :admin,skip: [:passwords], controllers: {
-    registrations: "admin/registrations",
+  devise_for :admin,skip: [:registrations, :passwords], controllers: {
     sessions: 'admin/sessions'
   }
 
@@ -36,5 +35,4 @@ resources :report_pdfs, only: [:index]
     resources :send_letters, only: [:new, :create, :index, :show, :destroy]
   end
 
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

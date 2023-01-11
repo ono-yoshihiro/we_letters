@@ -15,7 +15,7 @@ class Admin::BudgetsController < ApplicationController
     if @budget.save
       sections = Section.all
       sections.each do |section|
-      PaymentBudget.create(section_id: section.id, budget_id: budget.id)
+      PaymentBudget.create(section_id: section.id, budget_id: @budget.id)
       end
       redirect_to admin_budgets_path
     else
@@ -49,7 +49,7 @@ class Admin::BudgetsController < ApplicationController
 
   def destroy
     budget = Budget.find(params[:id])
-    if SendLetter.where(payment_budget_id: PaymentBudget.find_by(budget_id: budget.id).id).present?
+    if SendLetter.where(payment_budget_id: PaymentBudget.eager_load(:budget).where(budget: {id: budget.id}).ids).present?
       redirect_to admin_budgets_path, notice: '支払予算として使用履歴があるため完全削除はできません。'
     else
       budget.destroy

@@ -24,7 +24,7 @@ class Section::SectionsController < ApplicationController
   end
 
   def suspension_of_use
-    redirect_to root_path, notice: '利用停止中です。利用を開始するには管理者に連絡してください。' unless current_section.status == false
+    redirect_to root_path, notice: '利用停止中です。利用を開始するには管理者に連絡してください。' unless current_section.status == true
   end
 
 end

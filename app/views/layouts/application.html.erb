@@ -66,7 +66,7 @@
                 <ul class="list-unstyled">
                   <li><%= link_to "月集計表示", admin_monthly_report_path %></li>
                   <li><%= link_to "部署の一覧(使用停止･再開)", admin_sections_path %></li>
-                  <% if PostOffice.present? %>
+                  <% if PostOffice.exists?(id: 1) %>
                     <li><%= link_to "集配郵便局等情報編集", edit_admin_post_office_path(1) %></li>
                   <% else %>
                     <li><%= link_to "集配郵便局等情報登録", new_admin_post_office_path %></li>
@@ -107,7 +107,7 @@
       </div>
       <% if notice.present? %>
         <!--deviseによるログイン時、ログアウト時のflashメッセージは表示させない-->
-        <% if notice == "translation missing: ja.devise.sessions.section.signed_in" || notice == "translation missing: ja.devise.sessions.section.signed_out" || notice == "translation missing: ja.devise.sessions.admin.signed_in" || notice == "translation missing: ja.devise.sessions.admin.signed_out" %>
+        <% if notice == "translation missing: ja.devise.sessions.section.signed_in" || notice == "translation missing: ja.devise.sessions.section.signed_out" || notice == "translation missing: ja.devise.sessions.admin.signed_in" || notice == "translation missing: ja.devise.sessions.admin.signed_out" || notice == "translation missing: ja.devise.registrations.section.signed_up" || notice == "translation missing: ja.devise.sessions.section.already_signed_out" %>
         <% else %>
           <br><div class="container border border-danger text-danger small">
             <p class="border-bottom border-danger">次の理由によりリクエストは受付できませんでした。</p>

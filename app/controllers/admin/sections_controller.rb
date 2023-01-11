@@ -10,14 +10,16 @@ class Admin::SectionsController < ApplicationController
     section = Section.find(params[:id])
     payment_budgets = PaymentBudget.where(section_id: section.id)
     budgets = Budget.all
-    if section.status == false
-      section.update(status: true)
-      payment_budgets.destroy_all
-    else
+    if section.status == true
       section.update(status: false)
-      budgets.each do |budget|
-        PaymentBudget.create(section_id: section.id, budget_id: budget.id)
-      end
+#      payment_budgets.destroy_all
+    else
+      section.update(status: true)
+        budgets.each do |budget|
+          if !PaymentBudget.where(section_id: section.id).where(budget_id: budget.id).present?
+            PaymentBudget.create(section_id: section.id, budget_id: budget.id)
+          end
+        end
     end
     redirect_to admin_sections_path
   end

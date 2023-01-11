@@ -22,9 +22,9 @@
               <td class="border-dark" style="vertical-align:middle"><%= section.email %></td>
               <td class="border-dark" style="vertical-align:middle">
                 <% if section.status == false %>
-                  <%= link_to "利用中", admin_path(section), method: :patch, class: "btn btn-success btn-sm" %>
+                  <%= link_to "利用停止中", "/admin/sections/#{section.id}", method: :patch, class: "btn btn-danger btn-sm" %>
                 <% else %>
-                  <%= link_to "利用停止中", admin_path(section), method: :patch, class: "btn btn-danger btn-sm" %>
+                  <%= link_to "利用中", "/admin/sections/#{section.id}", method: :patch, class: "btn btn-success btn-sm" %>
                 <% end %>
               </td>
             </tr>

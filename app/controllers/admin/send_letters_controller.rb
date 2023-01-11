@@ -71,7 +71,7 @@ class Admin::SendLettersController < ApplicationController
             end
           end
         end
-        redirect_to "/"
+        redirect_to root_path
       else
         send_letters.update_all(status: false)
         #適用価格を削除するが、type_idを統合したものは元のidには戻らない
@@ -80,7 +80,7 @@ class Admin::SendLettersController < ApplicationController
             letter_detail.update(applicable_price: nil)
           end
       end
-      redirect_to "/"
+      redirect_to root_path
     end
   end
 

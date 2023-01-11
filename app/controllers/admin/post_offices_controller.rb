@@ -2,7 +2,7 @@ class Admin::PostOfficesController < ApplicationController
 
   before_action :authenticate_admin!
   #1件のみしか登録できない想定であるため、登録済の場合は、editページへリダイレクト
-  before_action :registered_post_office, if: -> { PostOffice.find(1).present? }, only: [:new]
+  before_action :registered_post_office, if: -> { PostOffice.exists?(id: 1) }, only: [:new]
 
   def new
     @post_office = PostOffice.new
