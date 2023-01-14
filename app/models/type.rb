@@ -16,29 +16,10 @@ class Type < ApplicationRecord
     self.delivery_date_option_price + self.registered_option_price + self.proof_delivery_option_price + self.proof_contents_option_price + self.personal_receipt_option_price
   end
 
-  #validates :type_name_id, presence: true
-  validates :size_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 2 }
-  validates :weight_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 3 }
-  validates :price, presence: true, unless: -> { validation_context == :letter_create }
-#  validate :invalid_values
-
-#  def invalid_values
-#    exists = Type.exists?(
-#      type_name_id: type_name_id,
-#      weight_id: weight_id,
-#      size_id: size_id,
-#      address_id: address_id,
-#      barcode_id: barcode_id,
-#      delivery_date_option_id: delivery_date_option_id,
-#      registered_option_id: registered_option_id,
-#      proof_delivery_option_id: proof_delivery_option_id,
-#      proof_contents_option_id: proof_contents_option_id,
-#      personal_receipt_option_id: personal_receipt_option_id
-#    )
-#    unless exists
-#      errors.add(:base, "不正な組み合わせです")
-#    end
-#  end
+#コンソールからの登録用に一旦コメントアウト
+#  validates :size_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 2 }
+#  validates :weight_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 3 }
+#  validates :price, presence: true, unless: -> { validation_context == :letter_create }
 
   def get_id
     if type_name_id == 2
