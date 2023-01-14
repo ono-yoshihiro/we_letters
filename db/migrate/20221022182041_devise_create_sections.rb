@@ -34,7 +34,7 @@ class DeviseCreateSections < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.string :pic_name, null: false
       t.string :telephone_number, null: false
-      t.boolean :status, null: false, default: false
+      t.boolean :status, default: false
 
       t.timestamps null: false
     end
