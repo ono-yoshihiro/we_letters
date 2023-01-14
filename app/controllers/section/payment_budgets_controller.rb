@@ -5,8 +5,9 @@ class Section::PaymentBudgetsController < ApplicationController
   before_action :suspension_of_use
 
   def index
-    @payment_budgets = PaymentBudget.where(section_id: current_section.id).where(registration: true)
-    @unregistered_payment_budgets = PaymentBudget.where(section_id: current_section.id).where(registration: false)
+    budgets = Budget.where(is_deleted: false)
+    @payment_budgets = PaymentBudget.where(section_id: current_section.id).where(budget_id: budgets.ids).where(registration: true)
+    @unregistered_payment_budgets = PaymentBudget.where(section_id: current_section.id).where(budget_id: budgets.ids).where(registration: false)
   end
 
   def register

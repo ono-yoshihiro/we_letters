@@ -8,8 +8,9 @@ class Section::SendLettersController < ApplicationController
 
   def new
     @send_letter = SendLetter.new
+    budgets = Budget.where(is_deleted: false)
     @letters = current_section.letters.order("type_id")
-    @payment_budgets = current_section.payment_budgets.where(registration: true)
+    @payment_budgets = current_section.payment_budgets.where(budget_id: budgets.ids).where(registration: true)
   end
 
   def create

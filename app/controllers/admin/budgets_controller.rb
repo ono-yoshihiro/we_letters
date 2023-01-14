@@ -39,6 +39,7 @@ class Admin::BudgetsController < ApplicationController
   def logical_delete
     budget = Budget.find(params[:id])
     if budget.is_deleted == false
+      #TRUEが削除状態
       budget.update(is_deleted: true)
       redirect_to admin_budgets_path
     else

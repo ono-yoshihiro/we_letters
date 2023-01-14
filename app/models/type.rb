@@ -16,10 +16,9 @@ class Type < ApplicationRecord
     self.delivery_date_option_price + self.registered_option_price + self.proof_delivery_option_price + self.proof_contents_option_price + self.personal_receipt_option_price
   end
 
-#コンソールからの登録用に一旦コメントアウト
-#  validates :size_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 2 }
-#  validates :weight_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 3 }
-#  validates :price, presence: true, unless: -> { validation_context == :letter_create }
+  validates :size_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 2 }
+  validates :weight_id, presence: true, if: -> { type_name_id == 1 || type_name_id == 3 }
+  validates :price, presence: true, unless: -> { validation_context == :letter_create }
 
   def get_id
     if type_name_id == 2
